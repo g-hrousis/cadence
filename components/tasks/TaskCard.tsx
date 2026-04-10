@@ -14,19 +14,29 @@ export function TaskCard({ task }: { task: TaskWithRelations }) {
 
   return (
     <div className={cn(
-      'card flex items-start gap-3',
-      overdue && 'border-red-200 bg-red-50',
-      today && !overdue && 'border-yellow-200 bg-yellow-50'
+      'c-card-p flex items-start gap-3 transition-opacity',
+      overdue && 'border-[rgba(248,113,113,0.2)] bg-[rgba(248,113,113,0.04)]',
+      today && !overdue && 'border-[rgba(251,191,36,0.2)] bg-[rgba(251,191,36,0.03)]',
+      isPending && 'opacity-40 pointer-events-none'
     )}>
+      {/* Complete button */}
       <button
         onClick={() => startTransition(() => completeTask(task.id))}
         disabled={isPending}
-        className="mt-0.5 w-4 h-4 rounded border border-gray-400 hover:border-blue-500 hover:bg-blue-50 shrink-0 transition-colors disabled:opacity-50"
+        className={cn(
+          'mt-0.5 w-4 h-4 rounded border shrink-0 transition-colors',
+          overdue
+            ? 'border-[rgba(248,113,113,0.4)] hover:bg-[rgba(248,113,113,0.15)]'
+            : 'border-[rgba(255,255,255,0.15)] hover:border-[#4F7AFF] hover:bg-[rgba(79,122,255,0.1)]'
+        )}
         title="Mark complete"
       />
 
       <div className="flex-1 min-w-0">
-        <p className={cn('text-sm font-medium text-gray-900', overdue && 'text-red-700')}>
+        <p className={cn(
+          'text-sm font-medium leading-snug',
+          overdue ? 'text-[#F87171]' : 'text-[#EDEDF2]'
+        )}>
           {task.title}
         </p>
 
@@ -34,7 +44,9 @@ export function TaskCard({ task }: { task: TaskWithRelations }) {
           {task.due_date && (
             <span className={cn(
               'text-xs',
-              overdue ? 'text-red-600 font-medium' : today ? 'text-yellow-700 font-medium' : 'text-gray-400'
+              overdue ? 'text-[#F87171] font-medium'
+                : today ? 'text-[#FBBF24] font-medium'
+                : 'text-[#6A6A88]'
             )}>
               {overdue ? 'Overdue · ' : today ? 'Due today · ' : 'Due '}{formatDate(task.due_date)}
             </span>
@@ -42,7 +54,7 @@ export function TaskCard({ task }: { task: TaskWithRelations }) {
           {task.contacts && (
             <Link
               href={`/contacts/${task.linked_contact_id}`}
-              className="text-xs text-blue-600 hover:underline"
+              className="text-xs text-[#4F7AFF] hover:text-[#7A9BFF] transition-colors"
               onClick={e => e.stopPropagation()}
             >
               {task.contacts.name}
@@ -51,7 +63,7 @@ export function TaskCard({ task }: { task: TaskWithRelations }) {
           {task.opportunities && (
             <Link
               href={`/opportunities/${task.linked_opportunity_id}`}
-              className="text-xs text-purple-600 hover:underline"
+              className="text-xs text-[#A78BFA] hover:text-[#C4B5FD] transition-colors"
               onClick={e => e.stopPropagation()}
             >
               {task.opportunities.title}
@@ -63,7 +75,7 @@ export function TaskCard({ task }: { task: TaskWithRelations }) {
       <button
         onClick={() => startTransition(() => deleteTask(task.id))}
         disabled={isPending}
-        className="text-xs text-gray-300 hover:text-red-400 transition-colors shrink-0"
+        className="text-xs text-[#383850] hover:text-[#F87171] transition-colors shrink-0 mt-0.5"
         title="Delete task"
       >
         ✕

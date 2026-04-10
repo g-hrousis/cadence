@@ -1,7 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
-import Link from 'next/link'
 import { SignOutButton } from '@/components/ui/SignOutButton'
+import { NavLink } from '@/components/ui/NavLink'
 
 export default async function ProtectedLayout({
   children,
@@ -13,42 +13,44 @@ export default async function ProtectedLayout({
 
   if (!user) redirect('/login')
 
+  // Redirect to onboarding if profile hasn't been set up
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('id, first_name')
+    .eq('id', user.id)
+    .single()
+
+  if (!profile?.first_name) redirect('/onboarding')
+
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen bg-[#09090E]">
       {/* Sidebar */}
-      <aside className="w-56 bg-white border-r border-gray-200 flex flex-col px-4 py-6 shrink-0">
-        <div className="mb-8">
-          <span className="text-lg font-bold text-blue-600 tracking-tight">Cadence</span>
+      <aside className="w-52 bg-[#0D0D14] border-r border-[rgba(255,255,255,0.06)] flex flex-col px-3 py-5 shrink-0 fixed h-full">
+        {/* Wordmark */}
+        <div className="mb-7 px-3">
+          <span className="text-[15px] font-bold text-[#EDEDF2] tracking-tight">Cadence</span>
+          <span className="text-[#4F7AFF] text-[15px] font-bold">.</span>
         </div>
 
-        <nav className="flex flex-col gap-1 flex-1">
+        {/* Nav */}
+        <nav className="flex flex-col gap-0.5 flex-1">
           <NavLink href="/dashboard">Dashboard</NavLink>
           <NavLink href="/contacts">Contacts</NavLink>
           <NavLink href="/opportunities">Opportunities</NavLink>
           <NavLink href="/tasks">Tasks</NavLink>
         </nav>
 
-        <div className="border-t border-gray-100 pt-4">
-          <p className="text-xs text-gray-400 truncate mb-2">{user.email}</p>
+        {/* Footer */}
+        <div className="border-t border-[rgba(255,255,255,0.06)] pt-3 px-3 space-y-1.5">
+          <p className="text-xs text-[#585870] truncate">{profile.first_name}</p>
           <SignOutButton />
         </div>
       </aside>
 
       {/* Main content */}
-      <main className="flex-1 overflow-y-auto p-8">
+      <main className="flex-1 ml-52 overflow-y-auto min-h-screen p-8">
         {children}
       </main>
     </div>
-  )
-}
-
-function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
-  return (
-    <Link
-      href={href}
-      className="flex items-center px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-900 transition-colors"
-    >
-      {children}
-    </Link>
   )
 }

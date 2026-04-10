@@ -20,13 +20,13 @@ export default async function TasksPage() {
     supabase.from('opportunities').select('*').order('title'),
   ])
 
+  const count = tasks?.length ?? 0
+
   return (
     <div className="max-w-2xl">
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">Tasks</h1>
-          <p className="text-sm text-gray-500 mt-0.5">{tasks?.length ?? 0} pending</p>
-        </div>
+      <div className="mb-6">
+        <h1 className="text-2xl font-bold text-[#EDEDF2] tracking-tight">Tasks</h1>
+        <p className="text-sm text-[#8888A8] mt-0.5">{count} pending</p>
       </div>
 
       <div className="mb-6">
@@ -34,8 +34,8 @@ export default async function TasksPage() {
       </div>
 
       {!tasks || tasks.length === 0 ? (
-        <div className="card text-center py-8">
-          <p className="text-gray-400 text-sm">No pending tasks. You&apos;re all caught up.</p>
+        <div className="c-card-p text-center py-8">
+          <p className="text-[#6A6A88] text-sm">No pending tasks. You&apos;re all caught up.</p>
         </div>
       ) : (
         <div className="space-y-2">

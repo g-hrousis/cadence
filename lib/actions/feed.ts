@@ -1,17 +1,62 @@
-import { differenceInDays, isToday, isPast, startOfDay, endOfDay } from 'date-fns'
+import { differenceInDays, isToday, isPast, startOfDay } from 'date-fns'
 import type { ActionItem, ActionPriority } from '@/types'
 import type { SupabaseClient } from '@supabase/supabase-js'
 
-// ─── Data fetchers ───────────────────────────────────────────────────────────
+// ─── Internal types ───────────────────────────────────────────────────────────
 
-async function fetchPendingTasks(supabase: SupabaseClient) {
+// What Supabase actually returns: joined relations come back as arrays.
+interface TaskRow {
+  id: string
+  title: string
+  due_date: string | null
+  linked_contact_id: string | null
+  linked_opportunity_id: string | null
+  source: string
+  contacts: { name: string }[] | { name: string } | null
+  opportunities: { title: string }[] | { title: string } | null
+}
+
+// What taskToRankedItem expects: relations normalized to single object or null.
+interface NormalizedTaskRow {
+  id: string
+  title: string
+  due_date: string | null
+  linked_contact_id: string | null
+  linked_opportunity_id: string | null
+  source: string
+  contacts: { name: string } | null
+  opportunities: { title: string } | null
+}
+
+// urgencyScore is internal — used for secondary sort, stripped before export.
+type RankedItem = ActionItem & { urgencyScore: number }
+
+// ─── Normalization ────────────────────────────────────────────────────────────
+
+// Supabase returns arrays for joined relations even when the FK guarantees
+// at most one row. Normalize to a single object or null before processing.
+function normalizeTask(task: TaskRow): NormalizedTaskRow {
+  return {
+    ...task,
+    contacts: Array.isArray(task.contacts)
+      ? (task.contacts[0] ?? null)
+      : task.contacts ?? null,
+    opportunities: Array.isArray(task.opportunities)
+      ? (task.opportunities[0] ?? null)
+      : task.opportunities ?? null,
+  }
+}
+
+// ─── Data fetchers ────────────────────────────────────────────────────────────
+
+async function fetchPendingTasks(supabase: SupabaseClient): Promise<TaskRow[]> {
   const { data } = await supabase
     .from('tasks')
     .select('id, title, due_date, linked_contact_id, linked_opportunity_id, source, contacts(name), opportunities(title)')
     .eq('status', 'pending')
     .or('snoozed_until.is.null,snoozed_until.lt.' + new Date().toISOString())
     .order('due_date', { ascending: true, nullsFirst: false })
-  return data ?? []
+  return (data ?? []) as TaskRow[]
 }
 
 async function fetchColdContacts(supabase: SupabaseClient) {
@@ -32,52 +77,48 @@ async function fetchStaleOpportunities(supabase: SupabaseClient) {
     .select('id, title, status, updated_at')
     .not('status', 'in', '("offer","rejected")')
     .lt('updated_at', threshold.toISOString())
+    .order('updated_at', { ascending: true })
     .limit(5)
   return data ?? []
 }
 
-// ─── Action builders ─────────────────────────────────────────────────────────
+// ─── Action builders ──────────────────────────────────────────────────────────
 
-function taskToActionItem(task: {
-  id: string
-  title: string
-  due_date: string | null
-  linked_contact_id: string | null
-  source: string
-  contacts: { name: string } | null
-  opportunities: { title: string } | null
-}): ActionItem | null {
+function taskToRankedItem(task: NormalizedTaskRow): RankedItem | null {
   if (!task.due_date) return null
 
   const dueDate = new Date(task.due_date)
-  const isOverdue = isPast(dueDate) && !isToday(dueDate)
-  const isDueToday = isToday(dueDate)
+  const overdue = isPast(dueDate) && !isToday(dueDate)
+  const dueToday = isToday(dueDate)
   const daysUntil = differenceInDays(dueDate, startOfDay(new Date()))
+  const contact = task.contacts?.name ? ` · ${task.contacts.name}` : ''
 
-  if (isOverdue) {
+  if (overdue) {
     const daysOver = Math.abs(differenceInDays(dueDate, new Date()))
     return {
       id: `task-${task.id}`,
       priority: 1,
       type: 'overdue_task',
       headline: task.title,
-      subtext: `${daysOver === 1 ? '1 day' : `${daysOver} days`} overdue${task.contacts ? ` · ${task.contacts.name}` : ''}`,
+      subtext: `${daysOver === 1 ? '1 day' : `${daysOver} days`} overdue${contact}`,
       taskId: task.id,
       contactId: task.linked_contact_id ?? undefined,
       contactName: task.contacts?.name,
+      urgencyScore: daysOver,
     }
   }
 
-  if (isDueToday) {
+  if (dueToday) {
     return {
       id: `task-${task.id}`,
       priority: 2,
       type: 'due_today_task',
       headline: task.title,
-      subtext: `Due today${task.contacts ? ` · ${task.contacts.name}` : ''}${task.opportunities ? ` · ${task.opportunities.title}` : ''}`,
+      subtext: `Due today${contact}${task.opportunities ? ` · ${task.opportunities.title}` : ''}`,
       taskId: task.id,
       contactId: task.linked_contact_id ?? undefined,
       contactName: task.contacts?.name,
+      urgencyScore: 0,
     }
   }
 
@@ -87,17 +128,18 @@ function taskToActionItem(task: {
       priority: 3,
       type: 'due_soon_task',
       headline: task.title,
-      subtext: `Due in ${daysUntil} day${daysUntil !== 1 ? 's' : ''}${task.contacts ? ` · ${task.contacts.name}` : ''}`,
+      subtext: `Due in ${daysUntil} day${daysUntil !== 1 ? 's' : ''}${contact}`,
       taskId: task.id,
       contactId: task.linked_contact_id ?? undefined,
       contactName: task.contacts?.name,
+      urgencyScore: -daysUntil,
     }
   }
 
   return null
 }
 
-function contactToActionItem(contact: {
+interface ContactRow {
   id: string
   name: string
   company: string | null
@@ -105,57 +147,93 @@ function contactToActionItem(contact: {
   last_contacted: string | null
   contact_cadence_days: number
   created_at: string
-}): ActionItem | null {
-  const cadence = contact.contact_cadence_days ?? 14
-  const context = [contact.role, contact.company].filter(Boolean).join(' at ')
+}
 
-  // Never contacted — added 3+ days ago
+function contactToRankedItem(
+  contact: ContactRow,
+  contactsWithTasks: Set<string>
+): RankedItem | null {
+  if (contactsWithTasks.has(contact.id)) return null
+
+  const cadence = Math.max(1, contact.contact_cadence_days ?? 14)
+  const context = [contact.role, contact.company].filter(Boolean).join(' at ')
+  const displayName = contact.name?.trim() || 'a contact'
+
   if (!contact.last_contacted) {
     const daysSinceAdded = differenceInDays(new Date(), new Date(contact.created_at))
     if (daysSinceAdded < 3) return null
+
+    const priority: ActionPriority = daysSinceAdded >= 14 ? 1 : 2
     return {
       id: `cold-${contact.id}`,
-      priority: 2,
+      priority,
       type: 'never_contacted',
-      headline: `${contact.name} has never been contacted`,
-      subtext: `Added ${daysSinceAdded} days ago${context ? ` · ${context}` : ''}`,
+      headline: `You haven't reached out to ${displayName} yet`,
+      subtext: `Added ${daysSinceAdded} day${daysSinceAdded !== 1 ? 's' : ''} ago${context ? ` · ${context}` : ''}`,
       contactId: contact.id,
       contactName: contact.name,
+      urgencyScore: daysSinceAdded,
     }
   }
 
   const daysSince = differenceInDays(new Date(), new Date(contact.last_contacted))
   if (daysSince < cadence) return null
 
+  const daysOver = daysSince - cadence
+  const priority: ActionPriority = daysSince >= cadence * 2 ? 1 : daysOver >= 14 ? 2 : 3
+
   return {
     id: `cold-${contact.id}`,
-    priority: 3,
+    priority,
     type: 'cold_contact',
-    headline: `Reconnect with ${contact.name}`,
-    subtext: `${daysSince} days since last contact${context ? ` · ${context}` : ''}`,
+    headline: `${displayName} is going cold`,
+    subtext: `${daysSince} day${daysSince !== 1 ? 's' : ''} since last contact · cadence is ${cadence}d${context ? ` · ${context}` : ''}`,
     contactId: contact.id,
     contactName: contact.name,
+    urgencyScore: daysOver,
   }
 }
 
-function opportunityToActionItem(opp: {
+interface OpportunityRow {
   id: string
   title: string
   status: string
   updated_at: string
-}): ActionItem {
+}
+
+function opportunityToRankedItem(opp: OpportunityRow): RankedItem {
   const daysStale = differenceInDays(new Date(), new Date(opp.updated_at))
+  const priority: ActionPriority = daysStale >= 30 ? 2 : 3
   return {
     id: `opp-${opp.id}`,
-    priority: 3,
+    priority,
     type: 'stale_opportunity',
-    headline: `Is "${opp.title}" still active?`,
-    subtext: `Status hasn't changed in ${daysStale} days · ${opp.status}`,
+    headline: `Is "${opp.title}" still moving?`,
+    subtext: `No updates in ${daysStale} day${daysStale !== 1 ? 's' : ''} · ${opp.status}`,
     opportunityId: opp.id,
+    urgencyScore: daysStale,
   }
 }
 
-// ─── Main export ─────────────────────────────────────────────────────────────
+// ─── Stats ────────────────────────────────────────────────────────────────────
+
+export interface FeedStats {
+  overdue: number
+  dueToday: number
+  coldContacts: number
+  staleOpportunities: number
+}
+
+export function computeFeedStats(items: ActionItem[]): FeedStats {
+  return {
+    overdue: items.filter(i => i.type === 'overdue_task').length,
+    dueToday: items.filter(i => i.type === 'due_today_task').length,
+    coldContacts: items.filter(i => i.type === 'cold_contact' || i.type === 'never_contacted').length,
+    staleOpportunities: items.filter(i => i.type === 'stale_opportunity').length,
+  }
+}
+
+// ─── Main export ──────────────────────────────────────────────────────────────
 
 export async function buildActionFeed(supabase: SupabaseClient): Promise<ActionItem[]> {
   const [tasks, contacts, opportunities] = await Promise.all([
@@ -164,38 +242,41 @@ export async function buildActionFeed(supabase: SupabaseClient): Promise<ActionI
     fetchStaleOpportunities(supabase),
   ])
 
-  const items: ActionItem[] = []
+  const ranked: RankedItem[] = []
+  const contactsWithTasks = new Set<string>()
 
-  // Tasks (overdue, today, due soon)
   for (const task of tasks) {
-    const item = taskToActionItem(task as Parameters<typeof taskToActionItem>[0])
-    if (item) items.push(item)
-  }
-
-  // Cold / never-contacted
-  for (const contact of contacts) {
-    const item = contactToActionItem(contact as Parameters<typeof contactToActionItem>[0])
-    if (item) items.push(item)
-  }
-
-  // Stale opportunities
-  for (const opp of opportunities) {
-    items.push(opportunityToActionItem(opp))
-  }
-
-  // Sort: priority first, then stable order within same priority
-  items.sort((a, b) => a.priority - b.priority)
-
-  // Deduplicate by id, cap at 10
-  const seen = new Set<string>()
-  const deduped: ActionItem[] = []
-  for (const item of items) {
-    if (!seen.has(item.id)) {
-      seen.add(item.id)
-      deduped.push(item)
+    const normalized = normalizeTask(task)
+    const item = taskToRankedItem(normalized)
+    if (item) {
+      ranked.push(item)
+      if (task.linked_contact_id) contactsWithTasks.add(task.linked_contact_id)
     }
-    if (deduped.length >= 10) break
   }
 
-  return deduped
+  for (const contact of contacts) {
+    const item = contactToRankedItem(contact as ContactRow, contactsWithTasks)
+    if (item) ranked.push(item)
+  }
+
+  for (const opp of opportunities) {
+    ranked.push(opportunityToRankedItem(opp as OpportunityRow))
+  }
+
+  ranked.sort((a, b) =>
+    a.priority !== b.priority
+      ? a.priority - b.priority
+      : b.urgencyScore - a.urgencyScore
+  )
+
+  const seen = new Set<string>()
+  const result: ActionItem[] = []
+  for (const { urgencyScore: _score, ...item } of ranked) {
+    if (seen.has(item.id)) continue
+    seen.add(item.id)
+    result.push(item)
+    if (result.length >= 12) break
+  }
+
+  return result
 }

@@ -1,4 +1,5 @@
-type BadgeVariant = 'blue' | 'green' | 'yellow' | 'red' | 'gray' | 'purple' | 'orange'
+import type { StatusBadgeVariant } from '@/components/ui/StatusBadge'
+type BadgeVariant = StatusBadgeVariant
 
 export function opportunityStatusLabel(status: string): string {
   const map: Record<string, string> = {

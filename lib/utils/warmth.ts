@@ -22,8 +22,8 @@ export function computeWarmth(contact: Pick<Contact, 'last_contacted' | 'contact
 }
 
 export const warmthStyles: Record<string, { dot: string; badge: string }> = {
-  hot:     { dot: 'bg-emerald-500', badge: 'bg-emerald-50 text-emerald-700 border-emerald-200' },
-  warm:    { dot: 'bg-yellow-400',  badge: 'bg-yellow-50 text-yellow-700 border-yellow-200' },
-  cooling: { dot: 'bg-orange-400',  badge: 'bg-orange-50 text-orange-700 border-orange-200' },
-  cold:    { dot: 'bg-red-400',     badge: 'bg-red-50 text-red-600 border-red-200' },
+  hot:     { dot: 'bg-[#22C55E]', badge: 'bg-[rgba(34,197,94,0.08)] text-[#22C55E] border-[rgba(34,197,94,0.2)]' },
+  warm:    { dot: 'bg-[#FBBF24]', badge: 'bg-[rgba(251,191,36,0.08)] text-[#FBBF24] border-[rgba(251,191,36,0.2)]' },
+  cooling: { dot: 'bg-[#F97316]', badge: 'bg-[rgba(249,115,22,0.08)] text-[#F97316] border-[rgba(249,115,22,0.2)]' },
+  cold:    { dot: 'bg-[#F87171]', badge: 'bg-[rgba(248,113,113,0.08)] text-[#F87171] border-[rgba(248,113,113,0.2)]' },
 }

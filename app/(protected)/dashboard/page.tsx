@@ -1,176 +1,144 @@
 import { createClient } from '@/lib/supabase/server'
-import type { TaskWithRelations, InteractionWithContact, Contact, Opportunity } from '@/types'
-import { TaskCard } from '@/components/tasks/TaskCard'
-import { ContactCard } from '@/components/contacts/ContactCard'
-import { OpportunityCard } from '@/components/opportunities/OpportunityCard'
-import { Badge } from '@/components/ui/Badge'
+import { buildActionFeed, computeFeedStats } from '@/lib/actions/feed'
+import { ActionFeed } from '@/components/dashboard/ActionFeed'
+import { PipelinePulse } from '@/components/dashboard/PipelinePulse'
+import { StatusBadge } from '@/components/ui/StatusBadge'
 import { channelLabel, outcomeLabel, outcomeVariant } from '@/lib/utils/labels'
-import { formatRelative, isOverdue, isDueToday, isGoingCold } from '@/lib/utils/dates'
+import { formatRelative } from '@/lib/utils/dates'
+import { startOfDay } from 'date-fns'
+import type { InteractionWithContact, Opportunity } from '@/types'
 import Link from 'next/link'
-
-function EmptySection({ message, href, linkText }: { message: string; href?: string; linkText?: string }) {
-  return (
-    <p className="text-sm text-gray-400 py-2">
-      {message}{' '}
-      {href && linkText && (
-        <Link href={href} className="text-blue-600 hover:underline">{linkText}</Link>
-      )}
-    </p>
-  )
-}
 
 export default async function DashboardPage() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
+  const todayStart = startOfDay(new Date()).toISOString()
+
   const [
-    { data: allTasks },
+    actionItems,
     { data: allContacts },
     { data: allOpportunities },
     { data: recentInteractions },
+    { data: profile },
+    { count: doneToday },
   ] = await Promise.all([
-    supabase
-      .from('tasks')
-      .select('*, contacts(name), opportunities(title)')
-      .eq('status', 'pending')
-      .order('due_date', { ascending: true, nullsFirst: false }),
-    supabase.from('contacts').select('*'),
-    supabase
-      .from('opportunities')
-      .select('*, opportunity_contacts(contact_id)')
-      .not('status', 'in', '("offer","rejected")'),
+    buildActionFeed(supabase),
+    supabase.from('contacts').select('id'),
+    supabase.from('opportunities').select('*').not('status', 'in', '("rejected")'),
     supabase
       .from('interactions')
       .select('*, contacts(name)')
       .order('date', { ascending: false })
       .limit(5),
+    supabase.from('profiles').select('first_name').eq('id', user!.id).single(),
+    // "Done today" = interactions logged today — best proxy for work completed
+    supabase
+      .from('interactions')
+      .select('id', { count: 'exact', head: true })
+      .gte('date', todayStart),
   ])
 
-  const tasks = (allTasks ?? []) as TaskWithRelations[]
-  const contacts = (allContacts ?? []) as Contact[]
-  const opportunities = allOpportunities ?? []
+  const contactCount = allContacts?.length ?? 0
+  const opportunities = (allOpportunities ?? []) as Opportunity[]
   const interactions = (recentInteractions ?? []) as InteractionWithContact[]
 
-  const overdueTasks = tasks.filter(t => isOverdue(t.due_date))
-  const todayTasks = tasks.filter(t => isDueToday(t.due_date))
-  const coldContacts = contacts.filter(c => isGoingCold(c.last_contacted))
+  // Use || not ?? so an empty string "" also falls through to the email fallback
+  const firstName = profile?.first_name?.trim() || user?.email?.split('@')[0] || 'there'
+  const hour = new Date().getHours()
+  const greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening'
+
+  const stats = computeFeedStats(actionItems)
+
+  // Urgency chips — compact, inline, only non-zero
+  const chips = [
+    stats.overdue > 0 && { label: `${stats.overdue} overdue`, color: 'text-[#F87171]' },
+    stats.dueToday > 0 && { label: `${stats.dueToday} due today`, color: 'text-[#FBBF24]' },
+    stats.coldContacts > 0 && { label: `${stats.coldContacts} going cold`, color: 'text-[#8888A8]' },
+    stats.staleOpportunities > 0 && { label: `${stats.staleOpportunities} stale`, color: 'text-[#8888A8]' },
+  ].filter(Boolean) as { label: string; color: string }[]
+
+  const completedCount = doneToday ?? 0
 
   return (
-    <div>
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
-        <p className="text-sm text-gray-500 mt-0.5">What needs your attention today</p>
-      </div>
+    <div className="max-w-3xl">
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* LEFT COLUMN */}
-        <div className="space-y-6">
+      {/* ── Header: compact, gets out of the way ───────────────────────────── */}
+      <div className="flex items-start justify-between mb-5">
+        <div>
+          <h1 className="text-xl font-bold text-[#EDEDF2] tracking-tight">
+            {greeting}, {firstName}.
+          </h1>
 
-          {/* Overdue follow-ups */}
-          <div className="card border-red-100">
-            <p className="section-title text-red-500">
-              Overdue ({overdueTasks.length})
-            </p>
-            {overdueTasks.length === 0 ? (
-              <EmptySection message="No overdue tasks." />
-            ) : (
-              <div className="space-y-2">
-                {overdueTasks.map(task => (
-                  <TaskCard key={task.id} task={task} />
-                ))}
-              </div>
-            )}
-          </div>
-
-          {/* Due today */}
-          <div className="card">
-            <p className="section-title">Due Today ({todayTasks.length})</p>
-            {todayTasks.length === 0 ? (
-              <EmptySection message="Nothing due today." />
-            ) : (
-              <div className="space-y-2">
-                {todayTasks.map(task => (
-                  <TaskCard key={task.id} task={task} />
-                ))}
-              </div>
-            )}
-          </div>
-
-          {/* Going cold */}
-          <div className="card">
-            <p className="section-title">Going Cold ({coldContacts.length})</p>
-            {coldContacts.length === 0 ? (
-              <EmptySection message="All contacts are warm." />
-            ) : (
-              <div className="space-y-2">
-                {coldContacts.slice(0, 5).map(contact => (
-                  <ContactCard key={contact.id} contact={contact} />
-                ))}
-                {coldContacts.length > 5 && (
-                  <Link href="/contacts" className="text-xs text-blue-600 hover:underline">
-                    +{coldContacts.length - 5} more
-                  </Link>
-                )}
-              </div>
-            )}
-          </div>
+          {/* Urgency summary */}
+          {chips.length === 0 ? (
+            <p className="text-sm text-[#8888A8] mt-0.5">You&apos;re on top of everything.</p>
+          ) : (
+            <div className="flex items-center gap-2 mt-1 flex-wrap">
+              {chips.map((chip, i) => (
+                <span key={chip.label} className="flex items-center gap-2">
+                  <span className={`text-sm font-medium ${chip.color}`}>{chip.label}</span>
+                  {i < chips.length - 1 && <span className="text-[#484860]">·</span>}
+                </span>
+              ))}
+            </div>
+          )}
         </div>
 
-        {/* RIGHT COLUMN */}
-        <div className="space-y-6">
+        {/* Daily reset — "X done today" */}
+        {completedCount > 0 && (
+          <div className="text-right shrink-0">
+            <p className="text-lg font-bold text-[#22C55E] tabular-nums">{completedCount}</p>
+            <p className="text-[10px] text-[#585870] uppercase tracking-wider">done today</p>
+          </div>
+        )}
+      </div>
 
-          {/* Active opportunities */}
-          <div className="card">
-            <div className="flex items-center justify-between mb-2">
-              <p className="section-title mb-0">Active Opportunities ({opportunities.length})</p>
-              <Link href="/opportunities" className="text-xs text-blue-600 hover:underline">View all</Link>
-            </div>
-            {opportunities.length === 0 ? (
-              <EmptySection message="No active opportunities." href="/opportunities/new" linkText="Add one" />
-            ) : (
-              <div className="space-y-2">
-                {opportunities.slice(0, 5).map(opp => (
-                  <OpportunityCard
-                    key={opp.id}
-                    opportunity={{ ...opp, contact_count: opp.opportunity_contacts?.length ?? 0 }}
-                  />
-                ))}
-                {opportunities.length > 5 && (
-                  <Link href="/opportunities" className="text-xs text-blue-600 hover:underline">
-                    +{opportunities.length - 5} more
-                  </Link>
-                )}
-              </div>
-            )}
+      {/* ── Action Feed: the product ────────────────────────────────────────── */}
+      <div className="mb-8">
+        <ActionFeed items={actionItems} contactCount={contactCount} />
+      </div>
+
+      {/* ── Secondary: de-emphasized, below the fold ────────────────────────── */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 opacity-90">
+
+        {/* Pipeline */}
+        <PipelinePulse opportunities={opportunities} />
+
+        {/* Recent interactions */}
+        <div className="bg-[#0D0D14] border border-[rgba(255,255,255,0.05)] rounded-xl px-4 py-3.5">
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-xs font-semibold text-[#6A6A88] uppercase tracking-wider">Recent</h2>
+            <Link href="/contacts" className="text-xs text-[#4F7AFF] hover:text-[#7A9BFF] transition-colors">
+              All contacts
+            </Link>
           </div>
 
-          {/* Recent interactions */}
-          <div className="card">
-            <p className="section-title">Recent Interactions</p>
-            {interactions.length === 0 ? (
-              <EmptySection message="No interactions yet." href="/contacts" linkText="View contacts" />
-            ) : (
-              <div className="space-y-3">
-                {interactions.map(interaction => (
-                  <div key={interaction.id} className="flex items-start justify-between gap-2">
-                    <div>
-                      <p className="text-sm font-medium text-gray-900">
-                        {interaction.contacts?.name ?? 'Unknown'}
-                      </p>
-                      <div className="flex items-center gap-1.5 mt-0.5">
-                        <span className="text-xs text-gray-500">{channelLabel(interaction.channel)}</span>
-                        <Badge variant={outcomeVariant(interaction.outcome)}>
-                          {outcomeLabel(interaction.outcome)}
-                        </Badge>
-                      </div>
-                    </div>
-                    <span className="text-xs text-gray-400 shrink-0">{formatRelative(interaction.date)}</span>
+          {interactions.length === 0 ? (
+            <p className="text-xs text-[#585870]">
+              No interactions yet.{' '}
+              <Link href="/contacts/new" className="text-[#4F7AFF] hover:text-[#7A9BFF]">
+                Add a contact
+              </Link>
+            </p>
+          ) : (
+            <div className="space-y-2.5">
+              {interactions.map(interaction => (
+                <div key={interaction.id} className="flex items-center justify-between gap-3">
+                  <div className="min-w-0 flex items-center gap-2">
+                    <span className="text-xs font-medium text-[#EDEDF2] truncate">
+                      {interaction.contacts?.name ?? 'Unknown'}
+                    </span>
+                    <span className="text-[#484860]">·</span>
+                    <StatusBadge variant={outcomeVariant(interaction.outcome)}>
+                      {outcomeLabel(interaction.outcome)}
+                    </StatusBadge>
                   </div>
-                ))}
-              </div>
-            )}
-          </div>
-
+                  <span className="text-[10px] text-[#585870] shrink-0">{formatRelative(interaction.date)}</span>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>

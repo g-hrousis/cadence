@@ -1,30 +1,30 @@
 import type { Interaction } from '@/types'
-import { Badge } from '@/components/ui/Badge'
+import { StatusBadge } from '@/components/ui/StatusBadge'
 import { formatDate } from '@/lib/utils/dates'
 import { channelLabel, outcomeLabel, outcomeVariant } from '@/lib/utils/labels'
 
 export function InteractionList({ interactions }: { interactions: Interaction[] }) {
   if (interactions.length === 0) {
     return (
-      <p className="text-sm text-gray-400 py-4">No interactions logged yet.</p>
+      <p className="text-xs text-[#6A6A88] py-4">No interactions logged yet.</p>
     )
   }
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-2">
       {interactions.map(interaction => (
-        <div key={interaction.id} className="border border-gray-200 rounded-lg p-3">
+        <div key={interaction.id} className="border border-[rgba(255,255,255,0.06)] rounded-lg px-3 py-2.5">
           <div className="flex items-center justify-between gap-2 mb-1">
             <div className="flex items-center gap-2">
-              <span className="text-xs font-medium text-gray-700">{channelLabel(interaction.channel)}</span>
-              <Badge variant={outcomeVariant(interaction.outcome)}>
+              <span className="text-xs font-medium text-[#EDEDF2]">{channelLabel(interaction.channel)}</span>
+              <StatusBadge variant={outcomeVariant(interaction.outcome)}>
                 {outcomeLabel(interaction.outcome)}
-              </Badge>
+              </StatusBadge>
             </div>
-            <span className="text-xs text-gray-400">{formatDate(interaction.date)}</span>
+            <span className="text-xs text-[#585870]">{formatDate(interaction.date)}</span>
           </div>
           {interaction.notes && (
-            <p className="text-xs text-gray-600 mt-1">{interaction.notes}</p>
+            <p className="text-xs text-[#8888A8] mt-1 leading-relaxed">{interaction.notes}</p>
           )}
         </div>
       ))}

@@ -1,3 +1,15 @@
+// ─── Profile ─────────────────────────────────────────────────────────────────
+
+export interface Profile {
+  id: string
+  first_name: string | null
+  last_name: string | null
+  targeted_job: string | null
+  industry: string | null
+  created_at: string
+  updated_at: string
+}
+
 export interface Contact {
   id: string
   user_id: string

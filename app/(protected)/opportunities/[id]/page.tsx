@@ -1,7 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import { Badge } from '@/components/ui/Badge'
+import { StatusBadge } from '@/components/ui/StatusBadge'
 import { DeleteOpportunityButton } from '@/components/opportunities/DeleteOpportunityButton'
 import { opportunityStatusLabel, opportunityStatusVariant, opportunityTypeLabel } from '@/lib/utils/labels'
 import { formatDate } from '@/lib/utils/dates'
@@ -30,10 +30,10 @@ export default async function OpportunityDetailPage({ params }: { params: Promis
         <div>
           <h1 className="text-2xl font-bold text-gray-900">{opportunity.title}</h1>
           <div className="flex items-center gap-2 mt-1">
-            <Badge variant={opportunityStatusVariant(opportunity.status)}>
+            <StatusBadge variant={opportunityStatusVariant(opportunity.status)}>
               {opportunityStatusLabel(opportunity.status)}
-            </Badge>
-            <Badge variant="gray">{opportunityTypeLabel(opportunity.type)}</Badge>
+            </StatusBadge>
+            <StatusBadge variant="gray">{opportunityTypeLabel(opportunity.type)}</StatusBadge>
           </div>
         </div>
         <div className="flex gap-2">

@@ -9,28 +9,27 @@ export default async function ContactsPage() {
     .select('*')
     .order('name')
 
+  const count = contacts?.length ?? 0
+
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Contacts</h1>
-          <p className="text-sm text-gray-500 mt-0.5">{contacts?.length ?? 0} people in your network</p>
+          <h1 className="text-2xl font-bold text-[#EDEDF2] tracking-tight">Contacts</h1>
+          <p className="text-sm text-[#8888A8] mt-0.5">{count} {count === 1 ? 'person' : 'people'} in your network</p>
         </div>
         <Link
           href="/contacts/new"
-          className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors"
+          className="bg-[#0F1940] hover:bg-[#162254] text-[#4F7AFF] text-sm font-medium px-4 py-2 rounded-lg transition-colors"
         >
           Add contact
         </Link>
       </div>
 
       {!contacts || contacts.length === 0 ? (
-        <div className="card text-center py-12">
-          <p className="text-gray-500 mb-4">No contacts yet. Start by adding someone from your network.</p>
-          <Link
-            href="/contacts/new"
-            className="text-blue-600 hover:underline text-sm font-medium"
-          >
+        <div className="c-card-p text-center py-12">
+          <p className="text-[#6A6A88] text-sm mb-4">No contacts yet. Start by adding someone from your network.</p>
+          <Link href="/contacts/new" className="text-[#4F7AFF] hover:text-[#7A9BFF] text-sm font-medium">
             Add your first contact
           </Link>
         </div>
