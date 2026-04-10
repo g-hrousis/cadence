@@ -2,12 +2,12 @@ import { createClient } from '@/lib/supabase/server'
 import { buildActionFeed, computeFeedStats } from '@/lib/actions/feed'
 import { ActionFeed } from '@/components/dashboard/ActionFeed'
 import { PipelinePulse } from '@/components/dashboard/PipelinePulse'
-import { StatusBadge } from '@/components/ui/StatusBadge'
-import { channelLabel, outcomeLabel, outcomeVariant } from '@/lib/utils/labels'
-import { formatRelative } from '@/lib/utils/dates'
+import { PipelineHealth } from '@/components/dashboard/PipelineHealth'
+import { RelationshipRisks } from '@/components/dashboard/RelationshipRisks'
+import { RecentActivity } from '@/components/dashboard/RecentActivity'
 import { startOfDay } from 'date-fns'
-import type { InteractionWithContact, Opportunity } from '@/types'
 import Link from 'next/link'
+import type { InteractionWithContact, Opportunity } from '@/types'
 
 export default async function DashboardPage() {
   const supabase = await createClient()
@@ -32,7 +32,6 @@ export default async function DashboardPage() {
       .order('date', { ascending: false })
       .limit(5),
     supabase.from('profiles').select('first_name').eq('id', user!.id).single(),
-    // "Done today" = interactions logged today — best proxy for work completed
     supabase
       .from('interactions')
       .select('id', { count: 'exact', head: true })
@@ -49,97 +48,86 @@ export default async function DashboardPage() {
   const greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening'
 
   const stats = computeFeedStats(actionItems)
-
-  // Urgency chips — compact, inline, only non-zero
-  const chips = [
-    stats.overdue > 0 && { label: `${stats.overdue} overdue`, color: 'text-[#F87171]' },
-    stats.dueToday > 0 && { label: `${stats.dueToday} due today`, color: 'text-[#FBBF24]' },
-    stats.coldContacts > 0 && { label: `${stats.coldContacts} going cold`, color: 'text-[#8888A8]' },
-    stats.staleOpportunities > 0 && { label: `${stats.staleOpportunities} stale`, color: 'text-[#8888A8]' },
-  ].filter(Boolean) as { label: string; color: string }[]
-
   const completedCount = doneToday ?? 0
 
-  return (
-    <div className="max-w-3xl">
+  // Status pills — non-zero only, shown as clickable header badges
+  const statusPills = [
+    stats.overdue + stats.dueToday > 0 && {
+      label: `${stats.overdue + stats.dueToday} Follow-up${stats.overdue + stats.dueToday !== 1 ? 's' : ''} Due`,
+      href: '/tasks',
+      color: 'text-[#4F7AFF] bg-[rgba(79,122,255,0.1)] border-[rgba(79,122,255,0.2)]',
+    },
+    stats.coldContacts > 0 && {
+      label: `${stats.coldContacts} Contact${stats.coldContacts !== 1 ? 's' : ''} Going Cold`,
+      href: '/contacts',
+      color: 'text-[#FBBF24] bg-[rgba(251,191,36,0.08)] border-[rgba(251,191,36,0.2)]',
+    },
+    stats.staleOpportunities > 0 && {
+      label: `${stats.staleOpportunities} High-Priority Opportunit${stats.staleOpportunities !== 1 ? 'ies' : 'y'}`,
+      href: '/opportunities',
+      color: 'text-[#F87171] bg-[rgba(248,113,113,0.08)] border-[rgba(248,113,113,0.2)]',
+    },
+  ].filter(Boolean) as { label: string; href: string; color: string }[]
 
-      {/* ── Header: compact, gets out of the way ───────────────────────────── */}
-      <div className="flex items-start justify-between mb-5">
+  return (
+    <div className="max-w-[1200px]">
+
+      {/* ── Top bar: greeting + live status pills + New CTA ──────────────────── */}
+      <div className="flex items-center justify-between mb-6 gap-4 flex-wrap">
         <div>
           <h1 className="text-xl font-bold text-[#EDEDF2] tracking-tight">
             {greeting}, {firstName}.
           </h1>
-
-          {/* Urgency summary */}
-          {chips.length === 0 ? (
-            <p className="text-sm text-[#8888A8] mt-0.5">You&apos;re on top of everything.</p>
-          ) : (
-            <div className="flex items-center gap-2 mt-1 flex-wrap">
-              {chips.map((chip, i) => (
-                <span key={chip.label} className="flex items-center gap-2">
-                  <span className={`text-sm font-medium ${chip.color}`}>{chip.label}</span>
-                  {i < chips.length - 1 && <span className="text-[#484860]">·</span>}
-                </span>
-              ))}
-            </div>
-          )}
-        </div>
-
-        {/* Daily reset — "X done today" */}
-        {completedCount > 0 && (
-          <div className="text-right shrink-0">
-            <p className="text-lg font-bold text-[#22C55E] tabular-nums">{completedCount}</p>
-            <p className="text-[10px] text-[#585870] uppercase tracking-wider">done today</p>
-          </div>
-        )}
-      </div>
-
-      {/* ── Action Feed: the product ────────────────────────────────────────── */}
-      <div className="mb-8">
-        <ActionFeed items={actionItems} contactCount={contactCount} />
-      </div>
-
-      {/* ── Secondary: de-emphasized, below the fold ────────────────────────── */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 opacity-90">
-
-        {/* Pipeline */}
-        <PipelinePulse opportunities={opportunities} />
-
-        {/* Recent interactions */}
-        <div className="bg-[#0D0D14] border border-[rgba(255,255,255,0.05)] rounded-xl px-4 py-3.5">
-          <div className="flex items-center justify-between mb-3">
-            <h2 className="text-xs font-semibold text-[#6A6A88] uppercase tracking-wider">Recent</h2>
-            <Link href="/contacts" className="text-xs text-[#4F7AFF] hover:text-[#7A9BFF] transition-colors">
-              All contacts
-            </Link>
-          </div>
-
-          {interactions.length === 0 ? (
-            <p className="text-xs text-[#585870]">
-              No interactions yet.{' '}
-              <Link href="/contacts/new" className="text-[#4F7AFF] hover:text-[#7A9BFF]">
-                Add a contact
-              </Link>
+          {completedCount > 0 ? (
+            <p className="text-xs text-[#22C55E] mt-0.5 font-medium">
+              {completedCount} interaction{completedCount !== 1 ? 's' : ''} logged today
             </p>
           ) : (
-            <div className="space-y-2.5">
-              {interactions.map(interaction => (
-                <div key={interaction.id} className="flex items-center justify-between gap-3">
-                  <div className="min-w-0 flex items-center gap-2">
-                    <span className="text-xs font-medium text-[#EDEDF2] truncate">
-                      {interaction.contacts?.name ?? 'Unknown'}
-                    </span>
-                    <span className="text-[#484860]">·</span>
-                    <StatusBadge variant={outcomeVariant(interaction.outcome)}>
-                      {outcomeLabel(interaction.outcome)}
-                    </StatusBadge>
-                  </div>
-                  <span className="text-[10px] text-[#585870] shrink-0">{formatRelative(interaction.date)}</span>
-                </div>
-              ))}
-            </div>
+            <p className="text-xs text-[#585870] mt-0.5">
+              {statusPills.length === 0 ? "You're on top of everything." : 'Here\'s what needs your attention.'}
+            </p>
           )}
         </div>
+
+        <div className="flex items-center gap-2 flex-wrap">
+          {statusPills.map(pill => (
+            <Link
+              key={pill.label}
+              href={pill.href}
+              className={`inline-flex items-center text-xs font-semibold px-3 py-1.5 rounded-full border transition-opacity hover:opacity-80 ${pill.color}`}
+            >
+              {pill.label}
+            </Link>
+          ))}
+
+          <Link
+            href="/contacts/new"
+            className="inline-flex items-center gap-1.5 text-xs font-semibold bg-[#111118] border border-[rgba(255,255,255,0.1)] text-[#EDEDF2] px-3 py-1.5 rounded-full hover:border-[rgba(255,255,255,0.2)] transition-colors"
+          >
+            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" />
+            </svg>
+            New
+          </Link>
+        </div>
+      </div>
+
+      {/* ── Two-column grid ───────────────────────────────────────────────────── */}
+      <div className="grid grid-cols-12 gap-5 items-start">
+
+        {/* Left column — Today's Moves + Opportunity Pipeline */}
+        <div className="col-span-12 lg:col-span-7 space-y-5">
+          <ActionFeed items={actionItems} contactCount={contactCount} />
+          <PipelinePulse opportunities={opportunities} />
+        </div>
+
+        {/* Right column — Pipeline Health + Relationship Risks + Recent Activity */}
+        <div className="col-span-12 lg:col-span-5 space-y-4">
+          <PipelineHealth stats={stats} />
+          <RelationshipRisks items={actionItems} />
+          <RecentActivity interactions={interactions} />
+        </div>
+
       </div>
     </div>
   )

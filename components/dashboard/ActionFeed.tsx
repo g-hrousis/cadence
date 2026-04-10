@@ -14,7 +14,7 @@ export function ActionFeed({ items, contactCount }: ActionFeedProps) {
     return (
       <div className="bg-[#111118] border border-[rgba(255,255,255,0.07)] rounded-xl overflow-hidden">
         <div className="px-5 py-3.5 border-b border-[rgba(255,255,255,0.05)]">
-          <h2 className="text-sm font-semibold text-[#EDEDF2]">Your queue</h2>
+          <h2 className="text-sm font-semibold text-[#EDEDF2]">Today&apos;s Moves</h2>
         </div>
         <div className="px-5 py-12 text-center">
           <p className="text-sm font-semibold text-[#EDEDF2] mb-1">Nothing to act on yet</p>
@@ -37,7 +37,7 @@ export function ActionFeed({ items, contactCount }: ActionFeedProps) {
     return (
       <div className="bg-[#111118] border border-[rgba(255,255,255,0.07)] rounded-xl overflow-hidden">
         <div className="px-5 py-3.5 border-b border-[rgba(255,255,255,0.05)] flex items-center justify-between">
-          <h2 className="text-sm font-semibold text-[#EDEDF2]">Your queue</h2>
+          <h2 className="text-sm font-semibold text-[#EDEDF2]">Today&apos;s Moves</h2>
           <span className="text-xs font-semibold text-[#22C55E] bg-[rgba(34,197,94,0.08)] border border-[rgba(34,197,94,0.15)] px-2 py-0.5 rounded-full">
             Clear
           </span>
@@ -60,7 +60,7 @@ export function ActionFeed({ items, contactCount }: ActionFeedProps) {
   return (
     <div className="bg-[#111118] border border-[rgba(255,255,255,0.07)] rounded-xl overflow-hidden">
       <div className="px-5 py-3.5 border-b border-[rgba(255,255,255,0.05)] flex items-center justify-between">
-        <h2 className="text-sm font-semibold text-[#EDEDF2]">Your queue</h2>
+        <h2 className="text-sm font-semibold text-[#EDEDF2]">Today&apos;s Moves</h2>
         <span className="text-xs text-[#8888A8]">
           {items.length} {items.length === 1 ? 'action' : 'actions'}
         </span>
