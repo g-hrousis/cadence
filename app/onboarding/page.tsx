@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import { IntakeForm } from '@/components/onboarding/IntakeForm'
+import { CadenceLogo } from '@/components/ui/CadenceLogo'
 import type { Profile } from '@/types'
 
 export default async function OnboardingPage() {
@@ -22,9 +23,9 @@ export default async function OnboardingPage() {
     <div className="min-h-screen bg-[#09090E] flex items-center justify-center px-4">
       <div className="w-full max-w-md">
         {/* Wordmark */}
-        <div className="mb-8 text-center">
-          <span className="text-xl font-bold text-[#EDEDF2] tracking-tight">Cadence</span>
-          <span className="text-[#4F7AFF] text-xl font-bold">.</span>
+        <div className="mb-8 flex items-center justify-center gap-3">
+          <CadenceLogo size={36} />
+          <span className="text-2xl font-bold text-[#EDEDF2] tracking-tight">Cadence</span>
         </div>
 
         {/* Card */}
