@@ -12,10 +12,12 @@ import { cn } from '@/lib/utils'
 export default async function ContactDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
   const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) notFound()
 
   const [{ data: contact }, { data: interactions }] = await Promise.all([
-    supabase.from('contacts').select('*').eq('id', id).single(),
-    supabase.from('interactions').select('*').eq('contact_id', id).order('date', { ascending: false }),
+    supabase.from('contacts').select('*').eq('id', id).eq('user_id', user.id).single(),
+    supabase.from('interactions').select('*').eq('contact_id', id).eq('user_id', user.id).order('date', { ascending: false }),
   ])
 
   if (!contact) notFound()

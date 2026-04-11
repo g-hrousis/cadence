@@ -6,72 +6,99 @@ import { redirect } from 'next/navigation'
 import { getFollowUpConfig } from '@/lib/utils/followup'
 import type { Channel, Outcome } from '@/lib/utils/followup'
 
+// ─── Validation helpers ───────────────────────────────────────────────────────
+const VALID_CHANNELS: Channel[] = ['linkedin', 'email', 'call', 'in_person']
+const VALID_OUTCOMES: Outcome[] = ['no_response', 'responded', 'follow_up_needed']
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+
+function str(val: FormDataEntryValue | null, max = 500): string {
+  return ((val as string) ?? '').trim().slice(0, max)
+}
+
+function strOrNull(val: FormDataEntryValue | null, max = 500): string | null {
+  const s = str(val, max)
+  return s || null
+}
+
+// ─── Actions ──────────────────────────────────────────────────────────────────
+
 export async function createContact(formData: FormData) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
-  const tagsRaw = (formData.get('tags') as string) ?? ''
-  const tags = tagsRaw.split(',').map(t => t.trim()).filter(Boolean)
+  const name = str(formData.get('name'))
+  if (!name) throw new Error('Name is required')
+
+  const tagsRaw = str(formData.get('tags'), 1000)
+  const tags = tagsRaw.split(',').map(t => t.trim()).filter(Boolean).slice(0, 20)
 
   const { error } = await supabase.from('contacts').insert({
     user_id: user.id,
-    name: formData.get('name') as string,
-    email: (formData.get('email') as string) || null,
-    company: (formData.get('company') as string) || null,
-    role: (formData.get('role') as string) || null,
+    name,
+    email: strOrNull(formData.get('email'), 254),
+    company: strOrNull(formData.get('company')),
+    role: strOrNull(formData.get('role')),
     tags,
-    notes: (formData.get('notes') as string) || '',
+    notes: str(formData.get('notes'), 5000),
   })
 
-  if (error) throw new Error(error.message)
+  if (error) throw new Error('Failed to create contact')
 
   revalidatePath('/contacts')
   redirect('/contacts')
 }
 
 export async function updateContact(id: string, formData: FormData) {
+  if (!UUID_RE.test(id)) throw new Error('Invalid ID')
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
-  const tagsRaw = (formData.get('tags') as string) ?? ''
-  const tags = tagsRaw.split(',').map(t => t.trim()).filter(Boolean)
+  const name = str(formData.get('name'))
+  if (!name) throw new Error('Name is required')
+
+  const tagsRaw = str(formData.get('tags'), 1000)
+  const tags = tagsRaw.split(',').map(t => t.trim()).filter(Boolean).slice(0, 20)
 
   const { error } = await supabase.from('contacts').update({
-    name: formData.get('name') as string,
-    email: (formData.get('email') as string) || null,
-    company: (formData.get('company') as string) || null,
-    role: (formData.get('role') as string) || null,
+    name,
+    email: strOrNull(formData.get('email'), 254),
+    company: strOrNull(formData.get('company')),
+    role: strOrNull(formData.get('role')),
     tags,
-    notes: (formData.get('notes') as string) || '',
+    notes: str(formData.get('notes'), 5000),
   }).eq('id', id).eq('user_id', user.id)
 
-  if (error) throw new Error(error.message)
+  if (error) throw new Error('Failed to update contact')
 
   revalidatePath(`/contacts/${id}`)
   redirect(`/contacts/${id}`)
 }
 
 export async function deleteContact(id: string) {
+  if (!UUID_RE.test(id)) throw new Error('Invalid ID')
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
   const { error } = await supabase.from('contacts').delete().eq('id', id).eq('user_id', user.id)
-  if (error) throw new Error(error.message)
+  if (error) throw new Error('Failed to delete contact')
 
   revalidatePath('/contacts')
   redirect('/contacts')
 }
 
 export async function addInteraction(contactId: string, formData: FormData) {
+  if (!UUID_RE.test(contactId)) throw new Error('Invalid contact ID')
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
-  const channel = (formData.get('channel') as Channel) || 'email'
-  const outcome = (formData.get('outcome') as Outcome) || 'responded'
+  const rawChannel = str(formData.get('channel')) as Channel
+  const rawOutcome = str(formData.get('outcome')) as Outcome
+  const channel: Channel = VALID_CHANNELS.includes(rawChannel) ? rawChannel : 'email'
+  const outcome: Outcome = VALID_OUTCOMES.includes(rawOutcome) ? rawOutcome : 'responded'
 
   // Use the recorded interaction date — not necessarily now.
   // Fall back to now() if the date field is missing or unparseable.
@@ -109,9 +136,9 @@ export async function addInteraction(contactId: string, formData: FormData) {
     date: interactionDate,
     channel,
     outcome,
-    notes: (formData.get('notes') as string) || '',
+    notes: str(formData.get('notes'), 5000),
   })
-  if (interactionError) throw new Error(interactionError.message)
+  if (interactionError) throw new Error('Failed to log interaction')
 
   // 2. Update contact — last_contacted uses the actual interaction date
   await supabase.from('contacts').update({

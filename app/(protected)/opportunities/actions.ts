@@ -4,22 +4,57 @@ import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 
+// ─── Allowed enum values ──────────────────────────────────────────────────────
+const VALID_TYPES   = ['job', 'referral', 'coffee_chat', 'interview'] as const
+const VALID_STATUSES = ['networking', 'applied', 'interviewing', 'offer', 'rejected'] as const
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+
+type OppType   = typeof VALID_TYPES[number]
+type OppStatus = typeof VALID_STATUSES[number]
+
+function validateType(val: unknown): OppType {
+  if (VALID_TYPES.includes(val as OppType)) return val as OppType
+  throw new Error('Invalid opportunity type')
+}
+
+function validateStatus(val: unknown): OppStatus {
+  if (VALID_STATUSES.includes(val as OppStatus)) return val as OppStatus
+  throw new Error('Invalid opportunity status')
+}
+
+function sanitizeContactIds(raw: string[]): string[] {
+  const ids = raw.map(s => s.trim()).filter(Boolean)
+  if (ids.some(id => !UUID_RE.test(id))) throw new Error('Invalid contact ID')
+  return ids
+}
+
+function str(val: FormDataEntryValue | null, max = 500): string {
+  return ((val as string) ?? '').trim().slice(0, max)
+}
+
+// ─── Actions ──────────────────────────────────────────────────────────────────
+
 export async function createOpportunity(formData: FormData) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
+  const title  = str(formData.get('title'))
+  const type   = validateType(str(formData.get('type')))
+  const status = validateStatus(str(formData.get('status')) || 'networking')
+
+  if (!title) throw new Error('Title is required')
+
   const { data: opp, error } = await supabase.from('opportunities').insert({
     user_id: user.id,
-    title: formData.get('title') as string,
-    type: formData.get('type') as string,
-    status: (formData.get('status') as string) || 'networking',
+    title,
+    type,
+    status,
   }).select().single()
 
-  if (error) throw new Error(error.message)
+  if (error) throw new Error('Failed to create opportunity')
 
-  // Link contacts
-  const contactIds = formData.getAll('contact_ids') as string[]
+  const contactIds = sanitizeContactIds(formData.getAll('contact_ids') as string[])
   if (contactIds.length > 0) {
     await supabase.from('opportunity_contacts').insert(
       contactIds.map(cid => ({ opportunity_id: opp.id, contact_id: cid }))
@@ -31,21 +66,25 @@ export async function createOpportunity(formData: FormData) {
 }
 
 export async function updateOpportunity(id: string, formData: FormData) {
+  if (!UUID_RE.test(id)) throw new Error('Invalid ID')
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
-  const { error } = await supabase.from('opportunities').update({
-    title: formData.get('title') as string,
-    type: formData.get('type') as string,
-    status: formData.get('status') as string,
-  }).eq('id', id).eq('user_id', user.id)
+  const title  = str(formData.get('title'))
+  const type   = validateType(str(formData.get('type')))
+  const status = validateStatus(str(formData.get('status')))
 
-  if (error) throw new Error(error.message)
+  if (!title) throw new Error('Title is required')
+
+  const { error } = await supabase.from('opportunities').update({ title, type, status })
+    .eq('id', id).eq('user_id', user.id)
+
+  if (error) throw new Error('Failed to update opportunity')
 
   // Re-sync linked contacts
   await supabase.from('opportunity_contacts').delete().eq('opportunity_id', id)
-  const contactIds = formData.getAll('contact_ids') as string[]
+  const contactIds = sanitizeContactIds(formData.getAll('contact_ids') as string[])
   if (contactIds.length > 0) {
     await supabase.from('opportunity_contacts').insert(
       contactIds.map(cid => ({ opportunity_id: id, contact_id: cid }))
@@ -58,11 +97,13 @@ export async function updateOpportunity(id: string, formData: FormData) {
 }
 
 export async function updateOpportunityStatus(id: string, status: string) {
+  if (!UUID_RE.test(id)) throw new Error('Invalid ID')
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
-  await supabase.from('opportunities').update({ status }).eq('id', id).eq('user_id', user.id)
+  const validStatus = validateStatus(status)
+  await supabase.from('opportunities').update({ status: validStatus }).eq('id', id).eq('user_id', user.id)
 
   revalidatePath('/opportunities')
 }

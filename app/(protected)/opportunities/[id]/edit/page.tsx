@@ -5,14 +5,17 @@ import { OpportunityForm } from '@/components/opportunities/OpportunityForm'
 export default async function EditOpportunityPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
   const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) notFound()
 
   const [{ data: opportunity }, { data: contacts }] = await Promise.all([
     supabase
       .from('opportunities')
       .select('*, opportunity_contacts(contact_id)')
       .eq('id', id)
+      .eq('user_id', user.id)
       .single(),
-    supabase.from('contacts').select('*').order('name'),
+    supabase.from('contacts').select('*').eq('user_id', user.id).order('name'),
   ])
 
   if (!opportunity) notFound()

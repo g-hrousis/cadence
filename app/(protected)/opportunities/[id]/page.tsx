@@ -9,11 +9,14 @@ import { formatDate } from '@/lib/utils/dates'
 export default async function OpportunityDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
   const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) notFound()
 
   const { data: opportunity } = await supabase
     .from('opportunities')
     .select('*, opportunity_contacts(contact_id, contacts(id, name, company, role))')
     .eq('id', id)
+    .eq('user_id', user.id)
     .single()
 
   if (!opportunity) notFound()
