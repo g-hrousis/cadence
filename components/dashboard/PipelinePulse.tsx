@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import type { Opportunity } from '@/types'
+import { GuideButton } from '@/components/ui/GuideModal'
 
 const STAGES = [
   { key: 'applied',      label: 'Applied',      nextStep: 'Follow Up',          dot: 'bg-[#4F7AFF]' },
@@ -31,7 +32,10 @@ export function PipelinePulse({ opportunities }: PipelinePulseProps) {
   return (
     <div className="bg-[#0D0D14] border border-[rgba(255,255,255,0.06)] rounded-xl p-4">
       <div className="flex items-center justify-between mb-3">
-        <h2 className="text-sm font-semibold text-[#EDEDF2]">Opportunity Pipeline</h2>
+        <div className="flex items-center gap-2">
+          <h2 className="text-sm font-semibold text-[#EDEDF2]">Opportunity Pipeline</h2>
+          <GuideButton guideKey="opportunity" />
+        </div>
         <Link
           href="/opportunities"
           className="text-xs text-[#4F7AFF] hover:text-[#7A9BFF] font-medium transition-colors"

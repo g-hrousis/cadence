@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { formatRelative } from '@/lib/utils/dates'
 import { channelLabel } from '@/lib/utils/labels'
+import { GuideButton } from '@/components/ui/GuideModal'
 import type { InteractionWithContact } from '@/types'
 
 // Channel icons — small SVGs, visually distinct
@@ -53,7 +54,10 @@ export function RecentActivity({ interactions }: RecentActivityProps) {
   return (
     <div className="bg-[#0D0D14] border border-[rgba(255,255,255,0.06)] rounded-xl p-4">
       <div className="flex items-center justify-between mb-3">
-        <h2 className="text-sm font-semibold text-[#EDEDF2]">Recent Activity</h2>
+        <div className="flex items-center gap-2">
+          <h2 className="text-sm font-semibold text-[#EDEDF2]">Recent Activity</h2>
+          <GuideButton guideKey="interaction" />
+        </div>
         <Link href="/contacts" className="text-xs text-[#4F7AFF] hover:text-[#7A9BFF] transition-colors font-medium">
           See all
         </Link>

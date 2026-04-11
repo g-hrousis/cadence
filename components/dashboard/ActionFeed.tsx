@@ -1,5 +1,6 @@
 import type { ActionItem as ActionItemType } from '@/types'
 import { ActionItem } from './ActionItem'
+import { GuideButton } from '@/components/ui/GuideModal'
 import Link from 'next/link'
 
 interface ActionFeedProps {
@@ -13,8 +14,9 @@ export function ActionFeed({ items, contactCount }: ActionFeedProps) {
   if (contactCount === 0) {
     return (
       <div className="bg-[#111118] border border-[rgba(255,255,255,0.07)] rounded-xl overflow-hidden">
-        <div className="px-5 py-3.5 border-b border-[rgba(255,255,255,0.05)]">
+        <div className="px-5 py-3.5 border-b border-[rgba(255,255,255,0.05)] flex items-center justify-between">
           <h2 className="text-sm font-semibold text-[#EDEDF2]">Today&apos;s Moves</h2>
+          <GuideButton guideKey="contact" />
         </div>
         <div className="px-5 py-12 text-center">
           <p className="text-sm font-semibold text-[#EDEDF2] mb-1">Nothing to act on yet</p>
