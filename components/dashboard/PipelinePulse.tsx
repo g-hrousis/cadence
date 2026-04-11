@@ -16,8 +16,8 @@ function OppInitials({ title }: { title: string }) {
     ? (words[0][0] + words[1][0]).toUpperCase()
     : title.slice(0, 2).toUpperCase()
   return (
-    <div className="w-6 h-6 rounded bg-[#1C1C2E] border border-[rgba(255,255,255,0.08)] flex items-center justify-center shrink-0">
-      <span className="text-[9px] font-bold text-[#8888A8]">{initials}</span>
+    <div className="w-6 h-6 rounded bg-surface-elevated border border-border-normal flex items-center justify-center shrink-0">
+      <span className="text-[9px] font-bold text-text-secondary">{initials}</span>
     </div>
   )
 }
@@ -30,10 +30,10 @@ export function PipelinePulse({ opportunities }: PipelinePulseProps) {
   const active = opportunities.filter(o => o.status !== 'rejected')
 
   return (
-    <div className="bg-[#0D0D14] border border-[rgba(255,255,255,0.06)] rounded-xl p-4">
+    <div className="bg-surface-sidebar border border-border-subtle rounded-xl p-4">
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
-          <h2 className="text-sm font-semibold text-[#EDEDF2]">Opportunity Pipeline</h2>
+          <h2 className="text-sm font-semibold text-text-primary">Opportunity Pipeline</h2>
           <GuideButton guideKey="opportunity" />
         </div>
         <Link
@@ -45,7 +45,7 @@ export function PipelinePulse({ opportunities }: PipelinePulseProps) {
       </div>
 
       {active.length === 0 ? (
-        <p className="text-xs text-[#6A6A88]">
+        <p className="text-xs text-text-muted">
           No active opportunities.{' '}
           <Link href="/opportunities/new" className="text-[#4F7AFF] hover:text-[#7A9BFF]">
             Track one
@@ -60,7 +60,7 @@ export function PipelinePulse({ opportunities }: PipelinePulseProps) {
                 {/* Column header */}
                 <div className="flex items-center gap-1.5 mb-2">
                   <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${stage.dot}`} />
-                  <span className="text-[10px] font-semibold text-[#6A6A88] uppercase tracking-wider truncate">
+                  <span className="text-[10px] font-semibold text-text-muted uppercase tracking-wider truncate">
                     {stage.label}
                   </span>
                 </div>
@@ -68,22 +68,22 @@ export function PipelinePulse({ opportunities }: PipelinePulseProps) {
                 {/* Cards */}
                 <div className="space-y-1.5">
                   {items.length === 0 ? (
-                    <div className="bg-[#111118] border border-dashed border-[rgba(255,255,255,0.06)] rounded-lg px-2.5 py-2.5 text-center">
-                      <span className="text-[10px] text-[#484860]">Empty</span>
+                    <div className="bg-surface-card border border-dashed border-border-subtle rounded-lg px-2.5 py-2.5 text-center">
+                      <span className="text-[10px] text-text-ghost">Empty</span>
                     </div>
                   ) : (
                     items.slice(0, 2).map(opp => (
                       <Link
                         key={opp.id}
                         href={`/opportunities/${opp.id}`}
-                        className="group flex items-start gap-2 bg-[#111118] border border-[rgba(255,255,255,0.05)] rounded-lg px-2.5 py-2 hover:border-[rgba(255,255,255,0.1)] transition-colors block"
+                        className="group flex items-start gap-2 bg-surface-card border border-border-subtle rounded-lg px-2.5 py-2 hover:border-border-normal transition-colors block"
                       >
                         <OppInitials title={opp.title} />
                         <div className="min-w-0 flex-1">
-                          <p className="text-[11px] font-semibold text-[#EDEDF2] truncate leading-tight">
+                          <p className="text-[11px] font-semibold text-text-primary truncate leading-tight">
                             {opp.title}
                           </p>
-                          <p className="text-[10px] text-[#585870] mt-0.5 truncate">
+                          <p className="text-[10px] text-text-dim mt-0.5 truncate">
                             {stage.nextStep}
                           </p>
                         </div>
@@ -94,7 +94,7 @@ export function PipelinePulse({ opportunities }: PipelinePulseProps) {
                   {items.length > 2 && (
                     <Link
                       href="/opportunities"
-                      className="block text-center text-[10px] text-[#585870] hover:text-[#8888A8] py-1 transition-colors"
+                      className="block text-center text-[10px] text-text-dim hover:text-text-secondary py-1 transition-colors"
                     >
                       +{items.length - 2} more
                     </Link>

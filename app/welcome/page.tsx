@@ -98,7 +98,7 @@ export default function WelcomePage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#09090E] flex flex-col items-center justify-center px-4">
+    <div className="min-h-screen bg-surface-base flex flex-col items-center justify-center px-4">
 
       {/* Logo */}
       <div className="mb-12">
@@ -107,7 +107,7 @@ export default function WelcomePage() {
           alt="Cadence"
           width={160}
           height={48}
-          className="object-contain mix-blend-screen"
+          className="object-contain logo-blend"
           priority
         />
       </div>
@@ -134,17 +134,17 @@ export default function WelcomePage() {
         </div>
 
         {/* Step counter */}
-        <p className="text-center text-xs font-semibold text-[#585870] uppercase tracking-widest mb-3">
+        <p className="text-center text-xs font-semibold text-text-dim uppercase tracking-widest mb-3">
           Step {step + 1} of {STEPS.length}
         </p>
 
         {/* Title */}
-        <h1 className="text-2xl font-bold text-[#EDEDF2] text-center mb-3 tracking-tight">
+        <h1 className="text-2xl font-bold text-text-primary text-center mb-3 tracking-tight">
           {current.title}
         </h1>
 
         {/* Body */}
-        <p className="text-sm text-[#8888A8] text-center leading-relaxed mb-8 max-w-sm mx-auto">
+        <p className="text-sm text-text-secondary text-center leading-relaxed mb-8 max-w-sm mx-auto">
           {current.body}
         </p>
 
@@ -180,7 +180,7 @@ export default function WelcomePage() {
         {!isLast && (
           <button
             onClick={() => router.push('/dashboard')}
-            className="w-full text-xs text-[#484860] hover:text-[#8888A8] py-3 transition-colors mt-1"
+            className="w-full text-xs text-text-ghost hover:text-text-secondary py-3 transition-colors mt-1"
           >
             Skip tour
           </button>

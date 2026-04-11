@@ -28,67 +28,67 @@ export function ContactForm({ contact }: ContactFormProps) {
   return (
     <form onSubmit={handleSubmit} className="space-y-4 max-w-lg">
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Name *</label>
+        <label className="block text-sm font-medium text-text-secondary mb-1">Name *</label>
         <input
           name="name"
           required
           defaultValue={contact?.name}
-          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full bg-surface-elevated border border-border-normal rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-blue-500"
           placeholder="Jane Smith"
         />
       </div>
 
       <div className="grid grid-cols-2 gap-3">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Company</label>
+          <label className="block text-sm font-medium text-text-secondary mb-1">Company</label>
           <input
             name="company"
             defaultValue={contact?.company ?? ''}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full bg-surface-elevated border border-border-normal rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Acme Corp"
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Role</label>
+          <label className="block text-sm font-medium text-text-secondary mb-1">Role</label>
           <input
             name="role"
             defaultValue={contact?.role ?? ''}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full bg-surface-elevated border border-border-normal rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Product Manager"
           />
         </div>
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+        <label className="block text-sm font-medium text-text-secondary mb-1">Email</label>
         <input
           name="email"
           type="email"
           defaultValue={contact?.email ?? ''}
-          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full bg-surface-elevated border border-border-normal rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-blue-500"
           placeholder="jane@example.com"
         />
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          Tags <span className="text-gray-400 font-normal">(comma-separated)</span>
+        <label className="block text-sm font-medium text-text-secondary mb-1">
+          Tags <span className="text-text-muted font-normal">(comma-separated)</span>
         </label>
         <input
           name="tags"
           defaultValue={contact?.tags.join(', ')}
-          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full bg-surface-elevated border border-border-normal rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-blue-500"
           placeholder="recruiter, alumni, warm"
         />
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Notes</label>
+        <label className="block text-sm font-medium text-text-secondary mb-1">Notes</label>
         <textarea
           name="notes"
           rows={4}
           defaultValue={contact?.notes}
-          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+          className="w-full bg-surface-elevated border border-border-normal rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
           placeholder="Context about this contact…"
         />
       </div>
@@ -104,7 +104,7 @@ export function ContactForm({ contact }: ContactFormProps) {
         <button
           type="button"
           onClick={() => router.back()}
-          className="text-sm text-gray-600 hover:text-gray-900 px-4 py-2 rounded-lg border border-gray-300 transition-colors"
+          className="text-sm text-text-secondary hover:text-text-primary px-4 py-2 rounded-lg border border-border-normal transition-colors"
         >
           Cancel
         </button>

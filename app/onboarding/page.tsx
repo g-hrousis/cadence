@@ -20,20 +20,20 @@ export default async function OnboardingPage() {
   const isEdit = !!profile?.first_name
 
   return (
-    <div className="min-h-screen bg-[#09090E] flex items-center justify-center px-4">
+    <div className="min-h-screen bg-surface-base flex items-center justify-center px-4">
       <div className="w-full max-w-md">
         {/* Wordmark */}
         <div className="mb-8 flex justify-center">
-          <Image src="/logo.png" alt="Cadence" width={200} height={60} className="object-contain mix-blend-screen" priority />
+          <Image src="/logo.png" alt="Cadence" width={200} height={60} className="object-contain logo-blend" priority />
         </div>
 
         {/* Card */}
         <div className="c-card-p">
           <div className="mb-6">
-            <h1 className="text-lg font-bold text-[#EDEDF2] mb-1">
+            <h1 className="text-lg font-bold text-text-primary mb-1">
               {isEdit ? 'Edit your profile' : "Let\u2019s get to know you"}
             </h1>
-            <p className="text-sm text-[#8888A8]">
+            <p className="text-sm text-text-secondary">
               {isEdit
                 ? 'Update your information below.'
                 : 'A few quick details so Cadence can surface what matters to you.'}
@@ -50,7 +50,7 @@ export default async function OnboardingPage() {
 
         {isEdit && (
           <p className="text-center mt-4">
-            <a href="/dashboard" className="text-xs text-[#585870] hover:text-[#8888A8] transition-colors">
+            <a href="/dashboard" className="text-xs text-text-dim hover:text-text-secondary transition-colors">
               ← Back to dashboard
             </a>
           </p>

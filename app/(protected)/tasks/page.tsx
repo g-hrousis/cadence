@@ -25,8 +25,8 @@ export default async function TasksPage() {
   return (
     <div className="max-w-2xl">
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-[#EDEDF2] tracking-tight">Tasks</h1>
-        <p className="text-sm text-[#8888A8] mt-0.5">{count} pending</p>
+        <h1 className="text-2xl font-bold text-text-primary tracking-tight">Tasks</h1>
+        <p className="text-sm text-text-secondary mt-0.5">{count} pending</p>
       </div>
 
       <div className="mb-6">
@@ -35,7 +35,7 @@ export default async function TasksPage() {
 
       {!tasks || tasks.length === 0 ? (
         <div className="c-card-p text-center py-8">
-          <p className="text-[#6A6A88] text-sm">No pending tasks. You&apos;re all caught up.</p>
+          <p className="text-text-muted text-sm">No pending tasks. You&apos;re all caught up.</p>
         </div>
       ) : (
         <div className="space-y-2">

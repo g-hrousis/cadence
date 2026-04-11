@@ -24,12 +24,21 @@ export default async function ProtectedLayout({
   if (!profile?.first_name) redirect('/onboarding')
 
   return (
-    <div className="flex min-h-screen bg-[#09090E]">
+    <div className="flex min-h-screen bg-surface-base">
       {/* Sidebar */}
-      <aside className="w-52 bg-[#0D0D14] border-r border-[rgba(255,255,255,0.06)] flex flex-col px-3 py-5 shrink-0 fixed h-full">
-        {/* Wordmark */}
-        <div className="mb-7 px-2">
-          <Image src="/logo.png" alt="Cadence" width={160} height={48} className="object-contain mix-blend-screen" priority />
+      <aside className="w-52 bg-surface-sidebar border-r border-border-subtle flex flex-col px-3 py-5 shrink-0 fixed h-full">
+
+        {/* Logo + wordmark */}
+        <div className="mb-7 px-2 flex items-center gap-2.5">
+          <Image
+            src="/logo.png"
+            alt="Cadence"
+            width={32}
+            height={32}
+            className="object-contain logo-blend shrink-0"
+            priority
+          />
+          <span className="text-base font-bold tracking-tight text-text-primary">Cadence</span>
         </div>
 
         {/* Nav */}
@@ -41,8 +50,8 @@ export default async function ProtectedLayout({
         </nav>
 
         {/* Footer */}
-        <div className="border-t border-[rgba(255,255,255,0.06)] pt-3 px-3 space-y-1.5">
-          <p className="text-xs text-[#585870] truncate">{profile.first_name}</p>
+        <div className="border-t border-border-subtle pt-3 px-3 space-y-1.5">
+          <p className="text-xs text-text-dim truncate">{profile.first_name}</p>
           <SignOutButton />
         </div>
       </aside>

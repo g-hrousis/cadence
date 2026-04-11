@@ -27,7 +27,7 @@ export function TaskCard({ task }: { task: TaskWithRelations }) {
           'mt-0.5 w-4 h-4 rounded border shrink-0 transition-colors',
           overdue
             ? 'border-[rgba(248,113,113,0.4)] hover:bg-[rgba(248,113,113,0.15)]'
-            : 'border-[rgba(255,255,255,0.15)] hover:border-[#4F7AFF] hover:bg-[rgba(79,122,255,0.1)]'
+            : 'border-border-strong hover:border-[#4F7AFF] hover:bg-[rgba(79,122,255,0.1)]'
         )}
         title="Mark complete"
       />
@@ -35,7 +35,7 @@ export function TaskCard({ task }: { task: TaskWithRelations }) {
       <div className="flex-1 min-w-0">
         <p className={cn(
           'text-sm font-medium leading-snug',
-          overdue ? 'text-[#F87171]' : 'text-[#EDEDF2]'
+          overdue ? 'text-[#F87171]' : 'text-text-primary'
         )}>
           {task.title}
         </p>
@@ -46,7 +46,7 @@ export function TaskCard({ task }: { task: TaskWithRelations }) {
               'text-xs',
               overdue ? 'text-[#F87171] font-medium'
                 : today ? 'text-[#FBBF24] font-medium'
-                : 'text-[#6A6A88]'
+                : 'text-text-muted'
             )}>
               {overdue ? 'Overdue · ' : today ? 'Due today · ' : 'Due '}{formatDate(task.due_date)}
             </span>

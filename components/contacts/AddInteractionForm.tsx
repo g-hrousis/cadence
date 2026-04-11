@@ -20,9 +20,9 @@ const OUTCOMES: { value: Outcome; label: string }[] = [
 ]
 
 const inputClass =
-  'w-full bg-[#0D0D14] border border-[rgba(255,255,255,0.08)] rounded-lg px-3 py-2 text-sm text-[#EDEDF2] focus:outline-none focus:border-[#4F7AFF] transition-colors'
+  'w-full bg-surface-sidebar border border-border-normal rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:border-[#4F7AFF] transition-colors'
 
-const labelClass = 'block text-xs font-medium text-[#8888A8] mb-1.5'
+const labelClass = 'block text-xs font-medium text-text-secondary mb-1.5'
 
 export function AddInteractionForm({ contactId }: { contactId: string }) {
   const [isPending, startTransition] = useTransition()
@@ -62,7 +62,7 @@ export function AddInteractionForm({ contactId }: { contactId: string }) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="mt-4 bg-[#111118] border border-[rgba(255,255,255,0.07)] rounded-xl p-4 space-y-3">
+    <form onSubmit={handleSubmit} className="mt-4 bg-surface-card border border-border-subtle rounded-xl p-4 space-y-3">
 
       {/* Channel + Outcome row */}
       <div className="grid grid-cols-2 gap-3">
@@ -99,15 +99,15 @@ export function AddInteractionForm({ contactId }: { contactId: string }) {
       {/* Live follow-up preview */}
       <div className={`flex items-start gap-2 px-3 py-2.5 rounded-lg text-xs leading-snug ${
         config.createTask
-          ? 'bg-[rgba(79,122,255,0.06)] border border-[rgba(79,122,255,0.15)] text-[#8888A8]'
-          : 'bg-[rgba(34,197,94,0.05)] border border-[rgba(34,197,94,0.12)] text-[#8888A8]'
+          ? 'bg-[rgba(79,122,255,0.06)] border border-[rgba(79,122,255,0.15)] text-text-secondary'
+          : 'bg-[rgba(34,197,94,0.05)] border border-[rgba(34,197,94,0.12)] text-text-secondary'
       }`}>
         <span className="shrink-0 mt-px">
           {config.createTask ? '→' : '✓'}
         </span>
         <span>
           {config.createTask
-            ? <><span className="text-[#EDEDF2] font-medium">{config.description.split('—')[0].trim()}</span>{config.description.includes('—') ? ` — ${config.description.split('—')[1].trim()}` : ''} Task due <span className="text-[#4F7AFF] font-medium">{followUpDate}</span>.</>
+            ? <><span className="text-text-primary font-medium">{config.description.split('—')[0].trim()}</span>{config.description.includes('—') ? ` — ${config.description.split('—')[1].trim()}` : ''} Task due <span className="text-[#4F7AFF] font-medium">{followUpDate}</span>.</>
             : <><span className="text-[#22C55E] font-medium">{config.description}</span></>
           }
         </span>
@@ -148,7 +148,7 @@ export function AddInteractionForm({ contactId }: { contactId: string }) {
         <button
           type="button"
           onClick={() => setOpen(false)}
-          className="text-xs text-[#585870] hover:text-[#8888A8] px-3 py-2 transition-colors"
+          className="text-xs text-text-dim hover:text-text-secondary px-3 py-2 transition-colors"
         >
           Cancel
         </button>

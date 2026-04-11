@@ -31,12 +31,12 @@ export default async function OpportunitiesPage() {
     <div>
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-[#EDEDF2] tracking-tight">Opportunities</h1>
-          <p className="text-sm text-[#8888A8] mt-0.5">{total} {total === 1 ? 'opportunity' : 'opportunities'} tracked</p>
+          <h1 className="text-2xl font-bold text-text-primary tracking-tight">Opportunities</h1>
+          <p className="text-sm text-text-secondary mt-0.5">{total} {total === 1 ? 'opportunity' : 'opportunities'} tracked</p>
         </div>
         <Link
           href="/opportunities/new"
-          className="bg-[#0F1940] hover:bg-[#162254] text-[#4F7AFF] text-sm font-medium px-4 py-2 rounded-lg transition-colors"
+          className="bg-accent-blue-muted hover:bg-accent-blue-hover text-[#4F7AFF] text-sm font-medium px-4 py-2 rounded-lg transition-colors"
         >
           Add opportunity
         </Link>
@@ -44,7 +44,7 @@ export default async function OpportunitiesPage() {
 
       {!opportunities || opportunities.length === 0 ? (
         <div className="c-card-p text-center py-12">
-          <p className="text-[#6A6A88] text-sm mb-4">No opportunities yet. Start tracking a role or conversation.</p>
+          <p className="text-text-muted text-sm mb-4">No opportunities yet. Start tracking a role or conversation.</p>
           <Link href="/opportunities/new" className="text-[#4F7AFF] hover:text-[#7A9BFF] text-sm font-medium">
             Track your first opportunity
           </Link>
@@ -56,7 +56,7 @@ export default async function OpportunitiesPage() {
             if (items.length === 0) return null
             return (
               <div key={status.key}>
-                <p className="text-xs font-semibold text-[#6A6A88] uppercase tracking-wider mb-3">
+                <p className="text-xs font-semibold text-text-muted uppercase tracking-wider mb-3">
                   {status.label} ({items.length})
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">

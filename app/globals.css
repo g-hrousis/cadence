@@ -2,7 +2,8 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
-@custom-variant dark (&:is(.dark *));
+/* ─── Dark variant responds to system preference ─────────────────────────── */
+@custom-variant dark (@media (prefers-color-scheme: dark));
 
 /* ─── Cadence Design Tokens ──────────────────────────────────────────────── */
 
@@ -10,40 +11,44 @@
   --font-heading: var(--font-sans);
   --font-sans: var(--font-sans);
 
-  /* Surfaces */
-  --color-surface-base:     #09090E;
-  --color-surface-card:     #111118;
-  --color-surface-elevated: #16161F;
-  --color-surface-hover:    #1A1A28;
-  --color-surface-sidebar:  #0D0D14;
+  /* Surfaces — point to CSS vars that flip with system theme */
+  --color-surface-base:     var(--c-bg);
+  --color-surface-card:     var(--c-surface);
+  --color-surface-elevated: var(--c-elevated);
+  --color-surface-hover:    var(--c-hover);
+  --color-surface-sidebar:  var(--c-sidebar);
+  --color-surface-sunken:   var(--c-sunken);
 
   /* Borders */
-  --color-border-subtle:    rgba(255,255,255,0.06);
-  --color-border-normal:    rgba(255,255,255,0.09);
-  --color-border-strong:    rgba(255,255,255,0.14);
+  --color-border-subtle:    var(--c-border-1);
+  --color-border-normal:    var(--c-border-2);
+  --color-border-strong:    var(--c-border-3);
 
   /* Text */
-  --color-text-primary:   #EDEDF2;
-  --color-text-secondary: #9898B8;
-  --color-text-muted:     #6A6A88;
+  --color-text-primary:     var(--c-text-1);
+  --color-text-secondary:   var(--c-text-2);
+  --color-text-muted:       var(--c-text-3);
+  --color-text-dim:         var(--c-text-4);
+  --color-text-ghost:       var(--c-text-5);
 
   /* Accent */
-  --color-accent-blue:    #4F7AFF;
-  --color-accent-blue-bg: #0F1940;
-  --color-accent-green:   #22C55E;
-  --color-accent-amber:   #FBBF24;
-  --color-accent-red:     #F87171;
+  --color-accent-blue:           #4F7AFF;
+  --color-accent-blue-muted:     var(--c-blue-muted);
+  --color-accent-blue-hover:     var(--c-blue-muted-hover);
+  --color-accent-green:          var(--c-green);
+  --color-accent-amber:          var(--c-amber);
+  --color-accent-red:            var(--c-red);
 
   /* shadcn overrides → map to Cadence tokens */
-  --color-background:           var(--background);
-  --color-foreground:           var(--foreground);
-  --color-card:                 var(--card);
-  --color-card-foreground:      var(--card-foreground);
-  --color-border:               var(--border);
-  --color-muted:                var(--muted);
-  --color-muted-foreground:     var(--muted-foreground);
-  --color-primary:              var(--primary);
-  --color-primary-foreground:   var(--primary-foreground);
+  --color-background:         var(--background);
+  --color-foreground:         var(--foreground);
+  --color-card:               var(--card);
+  --color-card-foreground:    var(--card-foreground);
+  --color-border:             var(--border);
+  --color-muted:              var(--muted);
+  --color-muted-foreground:   var(--muted-foreground);
+  --color-primary:            var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
 
   --radius-sm:  calc(var(--radius) * 0.6);
   --radius-md:  calc(var(--radius) * 0.8);
@@ -52,66 +57,120 @@
   --radius-2xl: calc(var(--radius) * 1.8);
 }
 
-/* ─── Dark-first CSS variables (override shadcn defaults) ─────────────────── */
+/* ─── Light mode (system default) ───────────────────────────────────────── */
 
 :root {
-  --background: #09090E;
-  --foreground: #EDEDF2;
-  --card: #111118;
-  --card-foreground: #EDEDF2;
-  --popover: #16161F;
-  --popover-foreground: #EDEDF2;
-  --primary: #4F7AFF;
-  --primary-foreground: #ffffff;
-  --secondary: #16161F;
-  --secondary-foreground: #EDEDF2;
-  --muted: #16161F;
-  --muted-foreground: #9898B8;
-  --accent: #1A1A28;
-  --accent-foreground: #EDEDF2;
-  --destructive: #F87171;
-  --border: rgba(255,255,255,0.07);
-  --input: rgba(255,255,255,0.07);
-  --ring: #4F7AFF;
-  --radius: 0.75rem;
-  --sidebar: #0D0D14;
-  --sidebar-foreground: #EDEDF2;
-  --sidebar-primary: #4F7AFF;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #1A1A28;
-  --sidebar-accent-foreground: #EDEDF2;
-  --sidebar-border: rgba(255,255,255,0.06);
-  --sidebar-ring: #4F7AFF;
-  --chart-1: #4F7AFF;
-  --chart-2: #22C55E;
-  --chart-3: #FBBF24;
-  --chart-4: #F87171;
-  --chart-5: #A78BFA;
+  /* Surfaces */
+  --c-bg:              #F5F5FA;
+  --c-surface:         #FFFFFF;
+  --c-elevated:        #F0F0F7;
+  --c-hover:           #E9E9F4;
+  --c-sidebar:         #EBEBF5;
+  --c-sunken:          #E0E0EE;
+
+  /* Borders */
+  --c-border-1:        rgba(70, 70, 120, 0.08);
+  --c-border-2:        rgba(70, 70, 120, 0.13);
+  --c-border-3:        rgba(70, 70, 120, 0.20);
+
+  /* Text */
+  --c-text-1:          #111118;
+  --c-text-2:          #4A4A6A;
+  --c-text-3:          #6A6A90;
+  --c-text-4:          #8888A8;
+  --c-text-5:          #A0A0BC;
+
+  /* Accents */
+  --c-blue-muted:      #EEF2FF;
+  --c-blue-muted-hover:#E4EAFF;
+  --c-green:           #16A34A;
+  --c-amber:           #D97706;
+  --c-red:             #DC2626;
+
+  /* shadcn vars */
+  --background:        #F5F5FA;
+  --foreground:        #111118;
+  --card:              #FFFFFF;
+  --card-foreground:   #111118;
+  --popover:           #FFFFFF;
+  --popover-foreground:#111118;
+  --primary:           #4F7AFF;
+  --primary-foreground:#ffffff;
+  --secondary:         #F0F0F7;
+  --secondary-foreground:#111118;
+  --muted:             #F0F0F7;
+  --muted-foreground:  #6A6A90;
+  --accent:            #E9E9F4;
+  --accent-foreground: #111118;
+  --destructive:       #DC2626;
+  --border:            rgba(70,70,120,0.10);
+  --input:             rgba(70,70,120,0.10);
+  --ring:              #4F7AFF;
+  --radius:            0.75rem;
+  --sidebar:           #EBEBF5;
+  --sidebar-foreground:#111118;
+  --sidebar-primary:   #4F7AFF;
+  --sidebar-primary-foreground:#ffffff;
+  --sidebar-accent:    #E9E9F4;
+  --sidebar-accent-foreground:#111118;
+  --sidebar-border:    rgba(70,70,120,0.08);
+  --sidebar-ring:      #4F7AFF;
 }
 
-/* Keep .dark as alias (activated via class on <html>) */
-.dark {
-  --background: #09090E;
-  --foreground: #EDEDF2;
-  --card: #111118;
-  --card-foreground: #EDEDF2;
-  --popover: #16161F;
-  --popover-foreground: #EDEDF2;
-  --primary: #4F7AFF;
-  --primary-foreground: #ffffff;
-  --secondary: #16161F;
-  --secondary-foreground: #EDEDF2;
-  --muted: #16161F;
-  --muted-foreground: #9898B8;
-  --accent: #1A1A28;
-  --accent-foreground: #EDEDF2;
-  --destructive: #F87171;
-  --border: rgba(255,255,255,0.07);
-  --input: rgba(255,255,255,0.07);
-  --ring: #4F7AFF;
-  --sidebar: #0D0D14;
-  --sidebar-foreground: #EDEDF2;
-  --sidebar-border: rgba(255,255,255,0.06);
+/* ─── Dark mode (system preference) ─────────────────────────────────────── */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Surfaces */
+    --c-bg:              #09090E;
+    --c-surface:         #111118;
+    --c-elevated:        #16161F;
+    --c-hover:           #1A1A28;
+    --c-sidebar:         #0D0D14;
+    --c-sunken:          #2A2A3A;
+
+    /* Borders */
+    --c-border-1:        rgba(255,255,255,0.06);
+    --c-border-2:        rgba(255,255,255,0.09);
+    --c-border-3:        rgba(255,255,255,0.15);
+
+    /* Text */
+    --c-text-1:          #EDEDF2;
+    --c-text-2:          #9898B8;
+    --c-text-3:          #6A6A88;
+    --c-text-4:          #585870;
+    --c-text-5:          #484860;
+
+    /* Accents */
+    --c-blue-muted:      #0F1940;
+    --c-blue-muted-hover:#162254;
+    --c-green:           #22C55E;
+    --c-amber:           #FBBF24;
+    --c-red:             #F87171;
+
+    /* shadcn vars */
+    --background:        #09090E;
+    --foreground:        #EDEDF2;
+    --card:              #111118;
+    --card-foreground:   #EDEDF2;
+    --popover:           #16161F;
+    --popover-foreground:#EDEDF2;
+    --primary:           #4F7AFF;
+    --primary-foreground:#ffffff;
+    --secondary:         #16161F;
+    --secondary-foreground:#EDEDF2;
+    --muted:             #16161F;
+    --muted-foreground:  #9898B8;
+    --accent:            #1A1A28;
+    --accent-foreground: #EDEDF2;
+    --destructive:       #F87171;
+    --border:            rgba(255,255,255,0.07);
+    --input:             rgba(255,255,255,0.07);
+    --ring:              #4F7AFF;
+    --sidebar:           #0D0D14;
+    --sidebar-foreground:#EDEDF2;
+    --sidebar-border:    rgba(255,255,255,0.06);
+  }
 }
 
 /* ─── Base ───────────────────────────────────────────────────────────────── */
@@ -131,17 +190,29 @@
   }
 }
 
+/* ─── Logo blend — screen in dark, normal in light ───────────────────────── */
+
+.logo-blend {
+  mix-blend-mode: multiply;
+}
+
+@media (prefers-color-scheme: dark) {
+  .logo-blend {
+    mix-blend-mode: screen;
+  }
+}
+
 /* ─── Cadence Utility Classes ─────────────────────────────────────────────── */
 
 .c-card {
-  background: #111118;
-  border: 1px solid rgba(255,255,255,0.07);
+  background: var(--c-surface);
+  border: 1px solid var(--c-border-1);
   border-radius: 0.875rem;
 }
 
 .c-card-p {
-  background: #111118;
-  border: 1px solid rgba(255,255,255,0.07);
+  background: var(--c-surface);
+  border: 1px solid var(--c-border-1);
   border-radius: 0.875rem;
   padding: 1.25rem;
 }
@@ -151,19 +222,19 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.09em;
-  color: #6A6A88;
+  color: var(--c-text-3);
 }
 
 .c-divider {
-  border-color: rgba(255,255,255,0.06);
+  border-color: var(--c-border-1);
 }
 
-/* Legacy: keep .card for old components (will migrate) */
+/* Legacy: keep .card for old components */
 .card {
-  background: #111118;
+  background: var(--c-surface);
   border-radius: 0.875rem;
-  border: 1px solid rgba(255,255,255,0.07);
-  box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+  border: 1px solid var(--c-border-1);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
   padding: 1.25rem;
 }
 
@@ -172,7 +243,7 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.09em;
-  color: #6A6A88;
+  color: var(--c-text-3);
   margin-bottom: 0.75rem;
 }
 
@@ -180,5 +251,5 @@
 
 ::-webkit-scrollbar { width: 4px; height: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
+::-webkit-scrollbar-thumb { background: var(--c-border-2); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: var(--c-border-3); }

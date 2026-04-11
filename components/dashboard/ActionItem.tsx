@@ -114,7 +114,7 @@ export function ActionItem({ item }: ActionItemProps) {
       className={cn(
         'transition-all duration-300 ease-in-out overflow-hidden',
         exiting ? 'opacity-0 max-h-0 !py-0 !border-0' : 'opacity-100 max-h-48',
-        'flex items-start gap-3 px-5 py-3.5 border-b border-[rgba(255,255,255,0.05)] last:border-0',
+        'flex items-start gap-3 px-5 py-3.5 border-b border-border-subtle last:border-0',
         isPending && !exiting && 'opacity-60'
       )}
     >
@@ -124,21 +124,21 @@ export function ActionItem({ item }: ActionItemProps) {
       {/* Content */}
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 flex-wrap">
-          <p className="text-sm font-medium text-[#EDEDF2] leading-snug">{item.headline}</p>
+          <p className="text-sm font-medium text-text-primary leading-snug">{item.headline}</p>
           {isOverdue && (
             <span className="inline-flex items-center text-[10px] font-bold px-1.5 py-0.5 rounded bg-[rgba(248,113,113,0.15)] text-[#F87171] border border-[rgba(248,113,113,0.2)] shrink-0">
               Overdue
             </span>
           )}
         </div>
-        <p className="text-xs text-[#8888A8] mt-0.5">{item.subtext}</p>
+        <p className="text-xs text-text-secondary mt-0.5">{item.subtext}</p>
 
         {/* CTAs */}
         <div className="flex items-center gap-2 mt-2 flex-wrap">
           {isTask && item.taskId && (
             <button
               onClick={handleComplete}
-              className="inline-flex items-center text-xs font-semibold bg-[#0F1940] text-[#4F7AFF] px-3 py-1.5 rounded-md hover:bg-[#162254] active:scale-95 transition-all"
+              className="inline-flex items-center text-xs font-semibold bg-accent-blue-muted text-[#4F7AFF] px-3 py-1.5 rounded-md hover:bg-accent-blue-hover active:scale-95 transition-all"
             >
               {ctaLabel[item.type]}
             </button>
@@ -147,7 +147,7 @@ export function ActionItem({ item }: ActionItemProps) {
           {isContact && item.contactId && (
             <Link
               href={`/contacts/${item.contactId}`}
-              className="inline-flex items-center text-xs font-semibold bg-[#0F1940] text-[#4F7AFF] px-3 py-1.5 rounded-md hover:bg-[#162254] active:scale-95 transition-all"
+              className="inline-flex items-center text-xs font-semibold bg-accent-blue-muted text-[#4F7AFF] px-3 py-1.5 rounded-md hover:bg-accent-blue-hover active:scale-95 transition-all"
             >
               {ctaLabel[item.type]}
             </Link>
@@ -156,7 +156,7 @@ export function ActionItem({ item }: ActionItemProps) {
           {isOpportunity && item.opportunityId && (
             <button
               onClick={handleMarkActive}
-              className="inline-flex items-center text-xs font-semibold bg-[#0F1940] text-[#4F7AFF] px-3 py-1.5 rounded-md hover:bg-[#162254] active:scale-95 transition-all"
+              className="inline-flex items-center text-xs font-semibold bg-accent-blue-muted text-[#4F7AFF] px-3 py-1.5 rounded-md hover:bg-accent-blue-hover active:scale-95 transition-all"
             >
               {ctaLabel[item.type]}
             </button>
@@ -165,7 +165,7 @@ export function ActionItem({ item }: ActionItemProps) {
           {isTask && item.contactId && (
             <Link
               href={`/contacts/${item.contactId}`}
-              className="text-xs text-[#8888A8] hover:text-[#9898B8] font-medium px-2 py-1.5 transition-colors"
+              className="text-xs text-text-secondary hover:text-text-secondary font-medium px-2 py-1.5 transition-colors"
             >
               {item.contactName}
             </Link>
@@ -174,7 +174,7 @@ export function ActionItem({ item }: ActionItemProps) {
           {isOpportunity && item.opportunityId && (
             <Link
               href={`/opportunities/${item.opportunityId}`}
-              className="text-xs text-[#8888A8] hover:text-[#9898B8] font-medium px-2 py-1.5 transition-colors"
+              className="text-xs text-text-secondary hover:text-text-secondary font-medium px-2 py-1.5 transition-colors"
             >
               View
             </Link>
@@ -182,7 +182,7 @@ export function ActionItem({ item }: ActionItemProps) {
 
           <button
             onClick={handleSnooze}
-            className="text-xs text-[#484860] hover:text-[#8888A8] px-2 py-1.5 transition-colors ml-auto"
+            className="text-xs text-text-ghost hover:text-text-secondary px-2 py-1.5 transition-colors ml-auto"
           >
             Snooze 3d
           </button>

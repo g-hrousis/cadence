@@ -9,7 +9,12 @@
       "Bash(npx tsc:*)",
       "Bash(node node_modules/typescript/bin/tsc --noEmit)",
       "Bash(npm run:*)",
-      "Bash(npx shadcn@latest init --defaults)"
+      "Bash(npx shadcn@latest init --defaults)",
+      "Bash(npx shadcn@latest add badge card separator --yes)",
+      "Bash(npx shadcn@latest add badge card separator)",
+      "Bash(sed -i '' 's|from '\\\\''@/components/ui/Badge'\\\\''|from '\\\\''@/components/ui/StatusBadge'\\\\''|g' '/Users/giannihrousis/Documents/Cadence Build/app/\\(protected\\)/opportunities/[id]/page.tsx' '/Users/giannihrousis/Documents/Cadence Build/app/\\(protected\\)/contacts/[id]/page.tsx' '/Users/giannihrousis/Documents/Cadence Build/app/\\(protected\\)/dashboard/page.tsx')",
+      "Bash(sed -i '' 's|{ Badge }|{ StatusBadge }|g; s|<Badge |<StatusBadge |g; s|</Badge>|</StatusBadge>|g' '/Users/giannihrousis/Documents/Cadence Build/app/\\(protected\\)/opportunities/[id]/page.tsx' '/Users/giannihrousis/Documents/Cadence Build/app/\\(protected\\)/contacts/[id]/page.tsx' '/Users/giannihrousis/Documents/Cadence Build/app/\\(protected\\)/dashboard/page.tsx')",
+      "Bash(find . -type f '\\(' -name '*.tsx' -o -name '*.ts' -o -name '*.css' '\\)' ! -path './node_modules/*' ! -path './.next/*' -exec sed -i '' -e 's/#383850/#585870/g' -e 's/#404058/#6A6A88/g' -e 's/#505068/#8888A8/g' -e 's/#7878A0/#9898B8/g' -e 's/#2A2A3C/#484860/g' '{}' +)"
     ]
   }
 }

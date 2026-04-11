@@ -229,16 +229,16 @@ export function GuideModal({ guideKey, onClose }: GuideModalProps) {
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
 
       {/* Card */}
-      <div className="relative w-full max-w-md bg-[#0D0D14] border border-[rgba(255,255,255,0.08)] rounded-2xl overflow-hidden shadow-2xl">
+      <div className="relative w-full max-w-md bg-surface-card border border-border-normal rounded-2xl overflow-hidden shadow-2xl">
 
         {/* Header bar */}
-        <div className="flex items-center justify-between px-5 py-4 border-b border-[rgba(255,255,255,0.06)]">
+        <div className="flex items-center justify-between px-5 py-4 border-b border-border-subtle">
           <span className={`text-xs font-bold uppercase tracking-widest ${guide.accent}`}>
             {guide.title}
           </span>
           <button
             onClick={onClose}
-            className="text-[#484860] hover:text-[#8888A8] transition-colors p-1 rounded-md hover:bg-[rgba(255,255,255,0.05)]"
+            className="text-text-ghost hover:text-text-secondary transition-colors p-1 rounded-md hover:bg-surface-hover"
             aria-label="Close guide"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -274,25 +274,25 @@ export function GuideModal({ guideKey, onClose }: GuideModalProps) {
         {/* Content */}
         <div className="px-5 pt-5 pb-2">
           <div className="flex items-center gap-2 mb-2">
-            <span className="text-xs font-semibold text-[#484860]">Step {step + 1} of {guide.steps.length}</span>
+            <span className="text-xs font-semibold text-text-ghost">Step {step + 1} of {guide.steps.length}</span>
           </div>
-          <h3 className="text-base font-bold text-[#EDEDF2] mb-2">{current.title}</h3>
-          <p className="text-sm text-[#8888A8] leading-relaxed">{current.body}</p>
+          <h3 className="text-base font-bold text-text-primary mb-2">{current.title}</h3>
+          <p className="text-sm text-text-secondary leading-relaxed">{current.body}</p>
 
           {current.tip && (
             <div className={`mt-3 ${guide.accentBg} border ${guide.accentBorder} rounded-lg px-3 py-2`}>
               <p className={`text-xs font-semibold ${guide.accent} mb-0.5`}>Pro tip</p>
-              <p className="text-xs text-[#8888A8]">{current.tip}</p>
+              <p className="text-xs text-text-secondary">{current.tip}</p>
             </div>
           )}
         </div>
 
         {/* Footer nav */}
-        <div className="flex items-center justify-between px-5 py-4 mt-2 border-t border-[rgba(255,255,255,0.05)]">
+        <div className="flex items-center justify-between px-5 py-4 mt-2 border-t border-border-subtle">
           <button
             onClick={() => setStep(s => Math.max(0, s - 1))}
             disabled={step === 0}
-            className="text-xs font-semibold text-[#585870] hover:text-[#8888A8] disabled:opacity-30 disabled:cursor-not-allowed transition-colors px-3 py-1.5 rounded-lg hover:bg-[rgba(255,255,255,0.04)] disabled:hover:bg-transparent"
+            className="text-xs font-semibold text-text-dim hover:text-text-secondary disabled:opacity-30 disabled:cursor-not-allowed transition-colors px-3 py-1.5 rounded-lg hover:bg-surface-hover disabled:hover:bg-transparent"
           >
             ← Back
           </button>
@@ -332,7 +332,7 @@ export function GuideButton({ guideKey }: GuideButtonProps) {
     <>
       <button
         onClick={() => setOpen(true)}
-        className="w-4 h-4 rounded-full border border-[rgba(255,255,255,0.15)] text-[#585870] hover:text-[#8888A8] hover:border-[rgba(255,255,255,0.25)] transition-colors flex items-center justify-center"
+        className="w-4 h-4 rounded-full border border-border-strong text-text-dim hover:text-text-secondary hover:border-border-strong transition-colors flex items-center justify-center"
         aria-label="How does this work?"
       >
         <svg className="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

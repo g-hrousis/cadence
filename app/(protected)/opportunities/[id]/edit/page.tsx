@@ -26,7 +26,7 @@ export default async function EditOpportunityPage({ params }: { params: Promise<
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">Edit Opportunity</h1>
+      <h1 className="text-2xl font-bold text-text-primary mb-6">Edit Opportunity</h1>
       <OpportunityForm
         opportunity={opportunity}
         contacts={contacts ?? []}

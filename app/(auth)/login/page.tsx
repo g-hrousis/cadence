@@ -32,24 +32,24 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#09090E] px-4">
+    <div className="min-h-screen flex items-center justify-center bg-surface-base px-4">
       <div className="w-full max-w-sm">
 
         {/* Logo */}
         <div className="flex justify-center mb-10">
-          <Image src="/logo.png" alt="Cadence" width={220} height={66} className="object-contain mix-blend-screen" priority />
+          <Image src="/logo.png" alt="Cadence" width={220} height={66} className="object-contain logo-blend" priority />
         </div>
 
         {/* Card */}
-        <div className="bg-[#0D0D14] border border-[rgba(255,255,255,0.07)] rounded-2xl p-6">
+        <div className="bg-surface-card border border-border-subtle rounded-2xl p-6">
           <div className="mb-6">
-            <h1 className="text-lg font-bold text-[#EDEDF2] mb-1">Sign in</h1>
-            <p className="text-sm text-[#8888A8]">Track your network. Never miss a follow-up.</p>
+            <h1 className="text-lg font-bold text-text-primary mb-1">Sign in</h1>
+            <p className="text-sm text-text-secondary">Track your network. Never miss a follow-up.</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-xs font-semibold text-[#8888A8] uppercase tracking-wider mb-1.5">
+              <label className="block text-xs font-semibold text-text-secondary uppercase tracking-wider mb-1.5">
                 Email
               </label>
               <input
@@ -57,12 +57,12 @@ export default function LoginPage() {
                 required
                 value={email}
                 onChange={e => setEmail(e.target.value)}
-                className="w-full bg-[#111118] border border-[rgba(255,255,255,0.08)] rounded-lg px-3 py-2.5 text-sm text-[#EDEDF2] placeholder-[#484860] focus:outline-none focus:border-[#4F7AFF] focus:ring-1 focus:ring-[rgba(79,122,255,0.3)] transition-colors"
+                className="w-full bg-surface-card border border-border-normal rounded-lg px-3 py-2.5 text-sm text-text-primary placeholder-text-ghost focus:outline-none focus:border-[#4F7AFF] focus:ring-1 focus:ring-[rgba(79,122,255,0.3)] transition-colors"
                 placeholder="you@example.com"
               />
             </div>
             <div>
-              <label className="block text-xs font-semibold text-[#8888A8] uppercase tracking-wider mb-1.5">
+              <label className="block text-xs font-semibold text-text-secondary uppercase tracking-wider mb-1.5">
                 Password
               </label>
               <input
@@ -70,7 +70,7 @@ export default function LoginPage() {
                 required
                 value={password}
                 onChange={e => setPassword(e.target.value)}
-                className="w-full bg-[#111118] border border-[rgba(255,255,255,0.08)] rounded-lg px-3 py-2.5 text-sm text-[#EDEDF2] placeholder-[#484860] focus:outline-none focus:border-[#4F7AFF] focus:ring-1 focus:ring-[rgba(79,122,255,0.3)] transition-colors"
+                className="w-full bg-surface-card border border-border-normal rounded-lg px-3 py-2.5 text-sm text-text-primary placeholder-text-ghost focus:outline-none focus:border-[#4F7AFF] focus:ring-1 focus:ring-[rgba(79,122,255,0.3)] transition-colors"
                 placeholder="••••••••"
               />
             </div>
@@ -90,7 +90,7 @@ export default function LoginPage() {
             </button>
           </form>
 
-          <p className="text-sm text-[#585870] text-center mt-5">
+          <p className="text-sm text-text-dim text-center mt-5">
             No account?{' '}
             <Link href="/signup" className="text-[#4F7AFF] hover:text-[#7A9BFF] transition-colors">
               Sign up

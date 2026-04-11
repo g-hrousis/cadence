@@ -52,10 +52,10 @@ interface RecentActivityProps {
 
 export function RecentActivity({ interactions }: RecentActivityProps) {
   return (
-    <div className="bg-[#0D0D14] border border-[rgba(255,255,255,0.06)] rounded-xl p-4">
+    <div className="bg-surface-sidebar border border-border-subtle rounded-xl p-4">
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
-          <h2 className="text-sm font-semibold text-[#EDEDF2]">Recent Activity</h2>
+          <h2 className="text-sm font-semibold text-text-primary">Recent Activity</h2>
           <GuideButton guideKey="interaction" />
         </div>
         <Link href="/contacts" className="text-xs text-[#4F7AFF] hover:text-[#7A9BFF] transition-colors font-medium">
@@ -64,7 +64,7 @@ export function RecentActivity({ interactions }: RecentActivityProps) {
       </div>
 
       {interactions.length === 0 ? (
-        <p className="text-xs text-[#585870]">
+        <p className="text-xs text-text-dim">
           No activity yet.{' '}
           <Link href="/contacts/new" className="text-[#4F7AFF] hover:text-[#7A9BFF]">
             Add a contact
@@ -87,23 +87,23 @@ export function RecentActivity({ interactions }: RecentActivityProps) {
               return (
                 <div
                   key={interaction.id}
-                  className="relative flex items-start gap-3 py-2.5 border-b border-[rgba(255,255,255,0.03)] last:border-0"
+                  className="relative flex items-start gap-3 py-2.5 border-b border-border-subtle last:border-0"
                 >
                   {/* Icon sits on the timeline */}
                   <ChannelIcon channel={interaction.channel} />
 
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm text-[#EDEDF2] leading-snug">
+                    <p className="text-sm text-text-primary leading-snug">
                       <span className="font-semibold">{channelLabel(interaction.channel)}</span>
                       {contactName && (
-                        <span className="text-[#8888A8] font-normal"> with {contactName}</span>
+                        <span className="text-text-secondary font-normal"> with {contactName}</span>
                       )}
                       {' '}
-                      <span className="text-[#585870] text-xs">— {description}</span>
+                      <span className="text-text-dim text-xs">— {description}</span>
                     </p>
                   </div>
 
-                  <span className="text-[10px] text-[#585870] shrink-0 mt-0.5">
+                  <span className="text-[10px] text-text-dim shrink-0 mt-0.5">
                     {i === 0 ? 'Today' : formatRelative(interaction.date)}
                   </span>
                 </div>

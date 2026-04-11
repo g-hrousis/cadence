@@ -7,7 +7,7 @@ export default async function NewOpportunityPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">Add Opportunity</h1>
+      <h1 className="text-2xl font-bold text-text-primary mb-6">Add Opportunity</h1>
       <OpportunityForm contacts={contacts ?? []} />
     </div>
   )

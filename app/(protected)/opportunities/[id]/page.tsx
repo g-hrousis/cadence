@@ -25,13 +25,13 @@ export default async function OpportunityDetailPage({ params }: { params: Promis
 
   return (
     <div className="max-w-xl">
-      <Link href="/opportunities" className="text-xs text-gray-400 hover:text-gray-600 mb-2 block">
+      <Link href="/opportunities" className="text-xs text-text-muted hover:text-text-secondary mb-2 block">
         ← Opportunities
       </Link>
 
       <div className="flex items-start justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">{opportunity.title}</h1>
+          <h1 className="text-2xl font-bold text-text-primary">{opportunity.title}</h1>
           <div className="flex items-center gap-2 mt-1">
             <StatusBadge variant={opportunityStatusVariant(opportunity.status)}>
               {opportunityStatusLabel(opportunity.status)}
@@ -42,7 +42,7 @@ export default async function OpportunityDetailPage({ params }: { params: Promis
         <div className="flex gap-2">
           <Link
             href={`/opportunities/${id}/edit`}
-            className="text-sm border border-gray-300 text-gray-700 hover:bg-gray-50 px-3 py-1.5 rounded-lg transition-colors"
+            className="text-sm border border-border-normal text-text-secondary hover:bg-surface-elevated px-3 py-1.5 rounded-lg transition-colors"
           >
             Edit
           </Link>
@@ -54,8 +54,8 @@ export default async function OpportunityDetailPage({ params }: { params: Promis
         <p className="section-title">Details</p>
         <dl className="text-sm space-y-1">
           <div className="flex gap-4">
-            <dt className="text-gray-500 w-28">Added</dt>
-            <dd className="text-gray-900">{formatDate(opportunity.created_at)}</dd>
+            <dt className="text-text-muted w-28">Added</dt>
+            <dd className="text-text-primary">{formatDate(opportunity.created_at)}</dd>
           </div>
         </dl>
       </div>
@@ -63,18 +63,18 @@ export default async function OpportunityDetailPage({ params }: { params: Promis
       <div className="card">
         <p className="section-title">Linked contacts ({linkedContacts.length})</p>
         {linkedContacts.length === 0 ? (
-          <p className="text-sm text-gray-400">No contacts linked.</p>
+          <p className="text-sm text-text-muted">No contacts linked.</p>
         ) : (
           <div className="space-y-2">
             {linkedContacts.map((contact: { id: string; name: string; company: string | null; role: string | null }) => (
               <Link
                 key={contact.id}
                 href={`/contacts/${contact.id}`}
-                className="flex items-center justify-between p-2 rounded-lg hover:bg-gray-50 transition-colors"
+                className="flex items-center justify-between p-2 rounded-lg hover:bg-surface-elevated transition-colors"
               >
-                <span className="text-sm font-medium text-gray-900">{contact.name}</span>
+                <span className="text-sm font-medium text-text-primary">{contact.name}</span>
                 {contact.company && (
-                  <span className="text-xs text-gray-400">{contact.company}</span>
+                  <span className="text-xs text-text-muted">{contact.company}</span>
                 )}
               </Link>
             ))}

@@ -30,23 +30,23 @@ export function OpportunityForm({ opportunity, contacts, linkedContactIds = [] }
   return (
     <form onSubmit={handleSubmit} className="space-y-4 max-w-lg">
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Title *</label>
+        <label className="block text-sm font-medium text-text-secondary mb-1">Title *</label>
         <input
           name="title"
           required
           defaultValue={opportunity?.title}
-          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full bg-surface-elevated border border-border-normal rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-blue-500"
           placeholder="Software Engineer at Acme"
         />
       </div>
 
       <div className="grid grid-cols-2 gap-3">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Type</label>
+          <label className="block text-sm font-medium text-text-secondary mb-1">Type</label>
           <select
             name="type"
             defaultValue={opportunity?.type ?? 'job'}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full bg-surface-elevated border border-border-normal rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             <option value="job">Job</option>
             <option value="referral">Referral</option>
@@ -55,11 +55,11 @@ export function OpportunityForm({ opportunity, contacts, linkedContactIds = [] }
           </select>
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
+          <label className="block text-sm font-medium text-text-secondary mb-1">Status</label>
           <select
             name="status"
             defaultValue={opportunity?.status ?? 'networking'}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full bg-surface-elevated border border-border-normal rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             <option value="networking">Networking</option>
             <option value="applied">Applied</option>
@@ -72,12 +72,12 @@ export function OpportunityForm({ opportunity, contacts, linkedContactIds = [] }
 
       {contacts.length > 0 && (
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-medium text-text-secondary mb-1">
             Linked contacts
           </label>
-          <div className="border border-gray-300 rounded-lg divide-y divide-gray-100 max-h-48 overflow-y-auto">
+          <div className="border border-border-normal rounded-lg divide-y divide-border-subtle max-h-48 overflow-y-auto">
             {contacts.map(contact => (
-              <label key={contact.id} className="flex items-center gap-3 px-3 py-2 hover:bg-gray-50 cursor-pointer">
+              <label key={contact.id} className="flex items-center gap-3 px-3 py-2 hover:bg-surface-elevated cursor-pointer">
                 <input
                   type="checkbox"
                   name="contact_ids"
@@ -85,9 +85,9 @@ export function OpportunityForm({ opportunity, contacts, linkedContactIds = [] }
                   defaultChecked={linkedContactIds.includes(contact.id)}
                   className="rounded"
                 />
-                <span className="text-sm text-gray-800">{contact.name}</span>
+                <span className="text-sm text-text-primary">{contact.name}</span>
                 {contact.company && (
-                  <span className="text-xs text-gray-400 ml-auto">{contact.company}</span>
+                  <span className="text-xs text-text-muted ml-auto">{contact.company}</span>
                 )}
               </label>
             ))}
@@ -106,7 +106,7 @@ export function OpportunityForm({ opportunity, contacts, linkedContactIds = [] }
         <button
           type="button"
           onClick={() => router.back()}
-          className="text-sm text-gray-600 hover:text-gray-900 px-4 py-2 rounded-lg border border-gray-300 transition-colors"
+          className="text-sm text-text-secondary hover:text-text-primary px-4 py-2 rounded-lg border border-border-normal transition-colors"
         >
           Cancel
         </button>

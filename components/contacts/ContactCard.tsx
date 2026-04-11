@@ -11,14 +11,14 @@ export function ContactCard({ contact }: { contact: Contact }) {
 
   return (
     <Link href={`/contacts/${contact.id}`}>
-      <div className="c-card-p hover:bg-[#13131C] transition-colors cursor-pointer group">
+      <div className="c-card-p hover:bg-surface-hover transition-colors cursor-pointer group">
         <div className="flex items-start justify-between gap-2">
           <div className="flex items-center gap-2.5 min-w-0">
             <span className={cn('w-1.5 h-1.5 rounded-full shrink-0 mt-0.5', wStyle.dot)} />
             <div className="min-w-0">
-              <p className="font-semibold text-[#EDEDF2] text-sm truncate">{contact.name}</p>
+              <p className="font-semibold text-text-primary text-sm truncate">{contact.name}</p>
               {(contact.role || contact.company) && (
-                <p className="text-xs text-[#8888A8] mt-0.5 truncate">
+                <p className="text-xs text-text-secondary mt-0.5 truncate">
                   {[contact.role, contact.company].filter(Boolean).join(' at ')}
                 </p>
               )}
@@ -40,17 +40,17 @@ export function ContactCard({ contact }: { contact: Contact }) {
           </div>
         )}
 
-        <div className="flex items-center gap-4 mt-3 text-xs text-[#6A6A88]">
+        <div className="flex items-center gap-4 mt-3 text-xs text-text-muted">
           <span>
             Last contact:{' '}
-            <span className={warmth.level === 'cold' || warmth.level === 'cooling' ? 'text-[#F87171] font-medium' : 'text-[#9898B8]'}>
+            <span className={warmth.level === 'cold' || warmth.level === 'cooling' ? 'text-[#F87171] font-medium' : 'text-text-secondary'}>
               {contact.last_contacted ? formatRelative(contact.last_contacted) : 'Never'}
             </span>
           </span>
           {contact.next_follow_up && (
             <span>
               Follow up:{' '}
-              <span className="text-[#9898B8]">{formatRelative(contact.next_follow_up)}</span>
+              <span className="text-text-secondary">{formatRelative(contact.next_follow_up)}</span>
             </span>
           )}
         </div>

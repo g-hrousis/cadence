@@ -75,7 +75,7 @@ export default async function DashboardPage() {
       {/* ── Top bar: greeting + live status pills + New CTA ──────────────────── */}
       <div className="flex items-center justify-between mb-6 gap-4 flex-wrap">
         <div>
-          <h1 className="text-xl font-bold text-[#EDEDF2] tracking-tight">
+          <h1 className="text-xl font-bold text-text-primary tracking-tight">
             {greeting}, {firstName}.
           </h1>
           {completedCount > 0 ? (
@@ -83,7 +83,7 @@ export default async function DashboardPage() {
               {completedCount} interaction{completedCount !== 1 ? 's' : ''} logged today
             </p>
           ) : (
-            <p className="text-xs text-[#585870] mt-0.5">
+            <p className="text-xs text-text-dim mt-0.5">
               {statusPills.length === 0 ? "You're on top of everything." : 'Here\'s what needs your attention.'}
             </p>
           )}
@@ -102,7 +102,7 @@ export default async function DashboardPage() {
 
           <Link
             href="/contacts/new"
-            className="inline-flex items-center gap-1.5 text-xs font-semibold bg-[#111118] border border-[rgba(255,255,255,0.1)] text-[#EDEDF2] px-3 py-1.5 rounded-full hover:border-[rgba(255,255,255,0.2)] transition-colors"
+            className="inline-flex items-center gap-1.5 text-xs font-semibold bg-surface-card border border-border-normal text-text-primary px-3 py-1.5 rounded-full hover:border-border-strong transition-colors"
           >
             <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" />
