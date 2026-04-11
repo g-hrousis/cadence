@@ -37,7 +37,7 @@ export default function LoginPage() {
 
         {/* Logo */}
         <div className="flex justify-center mb-10">
-          <Image src="/logo.png" alt="Cadence" width={220} height={66} className="object-contain" priority />
+          <Image src="/logo.png" alt="Cadence" width={220} height={66} className="object-contain mix-blend-screen" priority />
         </div>
 
         {/* Card */}

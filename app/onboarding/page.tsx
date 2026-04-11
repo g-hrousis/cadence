@@ -24,7 +24,7 @@ export default async function OnboardingPage() {
       <div className="w-full max-w-md">
         {/* Wordmark */}
         <div className="mb-8 flex justify-center">
-          <Image src="/logo.png" alt="Cadence" width={200} height={60} className="object-contain" priority />
+          <Image src="/logo.png" alt="Cadence" width={200} height={60} className="object-contain mix-blend-screen" priority />
         </div>
 
         {/* Card */}
