@@ -3,6 +3,7 @@ import "./globals.css";
 import { Geist } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { SpeedInsights } from '@vercel/speed-insights/next';
+import { Analytics } from '@vercel/analytics/next';
 
 const geist = Geist({ subsets: ['latin'], variable: '--font-sans' });
 
@@ -17,6 +18,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="min-h-full bg-[#09090E] text-[#EDEDF2] antialiased">
         {children}
         <SpeedInsights />
+        <Analytics />
       </body>
     </html>
   );
