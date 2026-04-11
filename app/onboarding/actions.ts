@@ -17,11 +17,20 @@ export async function saveProfile(_prev: { error: string } | null, formData: For
     industry: (formData.get('industry') as string)?.trim() || null,
   }
 
+  // Detect first-time setup before upsert so we can route to the product tour
+  const { data: existing } = await supabase
+    .from('profiles')
+    .select('first_name')
+    .eq('id', user.id)
+    .single()
+
+  const isNew = !existing?.first_name
+
   const { error } = await supabase.from('profiles').upsert(values, { onConflict: 'id' })
 
   if (error) {
     return { error: error.message }
   }
 
-  redirect('/dashboard')
+  redirect(isNew ? '/welcome' : '/dashboard')
 }
