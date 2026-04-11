@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { CadenceLogo } from '@/components/ui/CadenceLogo'
+import Image from 'next/image'
 
 export default function LoginPage() {
   const router = useRouter()
@@ -36,9 +36,8 @@ export default function LoginPage() {
       <div className="w-full max-w-sm">
 
         {/* Logo */}
-        <div className="flex items-center justify-center gap-3 mb-10">
-          <CadenceLogo size={40} />
-          <span className="text-2xl font-bold text-[#EDEDF2] tracking-tight">Cadence</span>
+        <div className="flex justify-center mb-10">
+          <Image src="/logo.png" alt="Cadence" width={220} height={66} className="object-contain" priority />
         </div>
 
         {/* Card */}

@@ -2,7 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import { SignOutButton } from '@/components/ui/SignOutButton'
 import { NavLink } from '@/components/ui/NavLink'
-import { CadenceLogo } from '@/components/ui/CadenceLogo'
+import Image from 'next/image'
 
 export default async function ProtectedLayout({
   children,
@@ -28,9 +28,8 @@ export default async function ProtectedLayout({
       {/* Sidebar */}
       <aside className="w-52 bg-[#0D0D14] border-r border-[rgba(255,255,255,0.06)] flex flex-col px-3 py-5 shrink-0 fixed h-full">
         {/* Wordmark */}
-        <div className="mb-7 px-3 flex items-center gap-2.5">
-          <CadenceLogo size={26} />
-          <span className="text-[15px] font-bold text-[#EDEDF2] tracking-tight">Cadence</span>
+        <div className="mb-7 px-2">
+          <Image src="/logo.png" alt="Cadence" width={160} height={48} className="object-contain" priority />
         </div>
 
         {/* Nav */}
