@@ -101,6 +101,16 @@ export default async function DashboardPage() {
           ))}
 
           <Link
+            href="/import"
+            className="inline-flex items-center gap-1.5 text-xs font-semibold bg-surface-card border border-border-normal text-text-primary px-3 py-1.5 rounded-full hover:border-border-strong transition-colors"
+          >
+            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M12 4v12m-4-4l4 4 4-4" />
+            </svg>
+            Import
+          </Link>
+
+          <Link
             href="/contacts/new"
             className="inline-flex items-center gap-1.5 text-xs font-semibold bg-surface-card border border-border-normal text-text-primary px-3 py-1.5 rounded-full hover:border-border-strong transition-colors"
           >
