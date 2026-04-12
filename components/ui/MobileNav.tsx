@@ -12,7 +12,7 @@ const NAV_ITEMS = [
   { href: '/tasks',         label: 'Tasks',      icon: CheckSquare },
 ]
 
-export function MobileNav() {
+export function MobileNav({ alertCount = 0 }: { alertCount?: number }) {
   const pathname = usePathname()
 
   return (
@@ -23,6 +23,7 @@ export function MobileNav() {
       <div className="flex items-center justify-around px-1 pt-1 pb-2">
         {NAV_ITEMS.map(({ href, label, icon: Icon }) => {
           const isActive = pathname === href || (href !== '/dashboard' && pathname.startsWith(href))
+          const showBadge = href === '/dashboard' && alertCount > 0
           return (
             <Link
               key={href}
@@ -34,7 +35,12 @@ export function MobileNav() {
                   : 'text-text-dim hover:text-text-secondary'
               )}
             >
-              <Icon size={22} strokeWidth={isActive ? 2 : 1.5} />
+              <div className="relative">
+                <Icon size={22} strokeWidth={isActive ? 2 : 1.5} />
+                {showBadge && (
+                  <span className="absolute -top-1 -right-1.5 w-2 h-2 rounded-full bg-[#F87171]" />
+                )}
+              </div>
               <span className="text-[10px] font-medium leading-none">{label}</span>
             </Link>
           )
