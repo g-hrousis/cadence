@@ -118,3 +118,36 @@ export async function deleteOpportunity(id: string) {
   revalidatePath('/opportunities')
   redirect('/opportunities')
 }
+
+export async function linkContact(opportunityId: string, contactId: string) {
+  if (!UUID_RE.test(opportunityId) || !UUID_RE.test(contactId)) throw new Error('Invalid ID')
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) redirect('/login')
+
+  const { data: opp } = await supabase.from('opportunities').select('id')
+    .eq('id', opportunityId).eq('user_id', user.id).single()
+  if (!opp) throw new Error('Opportunity not found')
+
+  await supabase.from('opportunity_contacts')
+    .upsert({ opportunity_id: opportunityId, contact_id: contactId }, { onConflict: 'opportunity_id,contact_id' })
+
+  revalidatePath(`/opportunities/${opportunityId}`)
+}
+
+export async function unlinkContact(opportunityId: string, contactId: string) {
+  if (!UUID_RE.test(opportunityId) || !UUID_RE.test(contactId)) throw new Error('Invalid ID')
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) redirect('/login')
+
+  const { data: opp } = await supabase.from('opportunities').select('id')
+    .eq('id', opportunityId).eq('user_id', user.id).single()
+  if (!opp) throw new Error('Opportunity not found')
+
+  await supabase.from('opportunity_contacts').delete()
+    .eq('opportunity_id', opportunityId)
+    .eq('contact_id', contactId)
+
+  revalidatePath(`/opportunities/${opportunityId}`)
+}

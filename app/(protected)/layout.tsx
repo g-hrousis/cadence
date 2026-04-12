@@ -2,8 +2,10 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import { SignOutButton } from '@/components/ui/SignOutButton'
 import { NavLink } from '@/components/ui/NavLink'
+import { NotificationBell } from '@/components/ui/NotificationBell'
 import { MobileNav } from '@/components/ui/MobileNav'
 import Image from 'next/image'
+import { startOfDay } from 'date-fns'
 
 export default async function ProtectedLayout({
   children,
@@ -16,13 +18,19 @@ export default async function ProtectedLayout({
   if (!user) redirect('/login')
 
   // Redirect to onboarding if profile hasn't been set up
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('id, first_name')
-    .eq('id', user.id)
-    .single()
+  const [{ data: profile }, { count: alertCount }] = await Promise.all([
+    supabase.from('profiles').select('id, first_name').eq('id', user.id).single(),
+    supabase
+      .from('tasks')
+      .select('id', { count: 'exact', head: true })
+      .eq('status', 'pending')
+      .lte('due_date', startOfDay(new Date()).toISOString())
+      .or('snoozed_until.is.null,snoozed_until.lt.' + new Date().toISOString()),
+  ])
 
   if (!profile?.first_name) redirect('/onboarding')
+
+  const alerts = alertCount ?? 0
 
   return (
     <div className="flex min-h-screen bg-surface-base">
@@ -44,7 +52,7 @@ export default async function ProtectedLayout({
 
         {/* Nav */}
         <nav className="flex flex-col gap-0.5 flex-1">
-          <NavLink href="/dashboard">Dashboard</NavLink>
+          <NotificationBell count={alerts} />
           <NavLink href="/contacts">Contacts</NavLink>
           <NavLink href="/opportunities">Opportunities</NavLink>
           <NavLink href="/tasks">Tasks</NavLink>
@@ -63,7 +71,7 @@ export default async function ProtectedLayout({
       </main>
 
       {/* Mobile bottom navigation */}
-      <MobileNav />
+      <MobileNav alertCount={alerts} />
     </div>
   )
 }
