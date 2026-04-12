@@ -35,7 +35,7 @@ export function IntakeForm({ firstName, lastName, targetedJob, industry }: Intak
         </div>
       )}
 
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div>
           <label className="c-label block mb-1.5">First name</label>
           <input

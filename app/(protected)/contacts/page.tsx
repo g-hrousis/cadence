@@ -13,7 +13,7 @@ export default async function ContactsPage() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-6">
         <div>
           <h1 className="text-2xl font-bold text-text-primary tracking-tight">Contacts</h1>
           <p className="text-sm text-text-secondary mt-0.5">{count} {count === 1 ? 'person' : 'people'} in your network</p>

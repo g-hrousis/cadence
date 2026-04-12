@@ -73,7 +73,7 @@ export default async function DashboardPage() {
     <div className="max-w-[1200px]">
 
       {/* ── Top bar: greeting + live status pills + New CTA ──────────────────── */}
-      <div className="flex items-center justify-between mb-6 gap-4 flex-wrap">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-3">
         <div>
           <h1 className="text-xl font-bold text-text-primary tracking-tight">
             {greeting}, {firstName}.

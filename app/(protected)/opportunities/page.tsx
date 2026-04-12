@@ -29,7 +29,7 @@ export default async function OpportunitiesPage() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-6">
         <div>
           <h1 className="text-2xl font-bold text-text-primary tracking-tight">Opportunities</h1>
           <p className="text-sm text-text-secondary mt-0.5">{total} {total === 1 ? 'opportunity' : 'opportunities'} tracked</p>

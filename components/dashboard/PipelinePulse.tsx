@@ -52,7 +52,7 @@ export function PipelinePulse({ opportunities }: PipelinePulseProps) {
           </Link>
         </p>
       ) : (
-        <div className="grid grid-cols-4 gap-2">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
           {STAGES.map(stage => {
             const items = active.filter(o => o.status === stage.key)
             return (

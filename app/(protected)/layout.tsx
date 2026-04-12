@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import { SignOutButton } from '@/components/ui/SignOutButton'
 import { NavLink } from '@/components/ui/NavLink'
+import { MobileNav } from '@/components/ui/MobileNav'
 import Image from 'next/image'
 
 export default async function ProtectedLayout({
@@ -25,8 +26,8 @@ export default async function ProtectedLayout({
 
   return (
     <div className="flex min-h-screen bg-surface-base">
-      {/* Sidebar */}
-      <aside className="w-52 bg-surface-sidebar border-r border-border-subtle flex flex-col px-3 py-5 shrink-0 fixed h-full">
+      {/* Sidebar — hidden on mobile, fixed on desktop */}
+      <aside className="hidden md:flex w-52 bg-surface-sidebar border-r border-border-subtle flex-col px-3 py-5 shrink-0 fixed h-full">
 
         {/* Logo + wordmark */}
         <div className="mb-7 px-2 flex items-center gap-2.5">
@@ -57,9 +58,12 @@ export default async function ProtectedLayout({
       </aside>
 
       {/* Main content */}
-      <main className="flex-1 ml-52 overflow-y-auto min-h-screen p-8">
+      <main className="flex-1 md:ml-52 overflow-y-auto min-h-screen p-4 sm:p-6 md:p-8 pb-24 md:pb-8">
         {children}
       </main>
+
+      {/* Mobile bottom navigation */}
+      <MobileNav />
     </div>
   )
 }
