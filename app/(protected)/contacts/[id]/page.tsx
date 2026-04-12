@@ -29,12 +29,12 @@ export default async function ContactDetailPage({ params }: { params: Promise<{ 
     <div className="max-w-2xl">
 
       {/* Header */}
-      <div className="flex items-start justify-between mb-6">
-        <div>
+      <div className="flex flex-col sm:flex-row sm:items-start gap-3 mb-6">
+        <div className="flex-1 min-w-0">
           <Link href="/contacts" className="text-xs text-text-dim hover:text-text-secondary mb-2 block transition-colors">
             ← Contacts
           </Link>
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-2.5 flex-wrap">
             <span className={cn('w-2 h-2 rounded-full shrink-0', wStyle.dot)} />
             <h1 className="text-2xl font-bold text-text-primary tracking-tight">{contact.name}</h1>
             <span className={cn('text-xs font-medium px-2 py-0.5 rounded-full border', wStyle.badge)}>
@@ -61,7 +61,7 @@ export default async function ContactDetailPage({ params }: { params: Promise<{ 
       {/* Details card */}
       <div className="c-card-p mb-4">
         <p className="text-xs font-semibold text-text-muted uppercase tracking-wider mb-3">Details</p>
-        <dl className="grid grid-cols-2 gap-x-4 gap-y-2.5 text-sm">
+        <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2.5 text-sm">
           {contact.email && (
             <>
               <dt className="text-text-muted">Email</dt>

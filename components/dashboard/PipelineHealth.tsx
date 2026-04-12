@@ -30,7 +30,7 @@ export function PipelineHealth({ stats }: PipelineHealthProps) {
   return (
     <div className="bg-surface-sidebar border border-border-subtle rounded-xl p-4">
       <h2 className="text-sm font-semibold text-text-primary mb-3">Pipeline Health</h2>
-      <div className="grid grid-cols-4 gap-2">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
         {tiles.map(tile => (
           <Link
             key={tile.label}
