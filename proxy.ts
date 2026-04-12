@@ -8,10 +8,12 @@ export async function proxy(request: NextRequest) {
 
   const { pathname } = request.nextUrl
 
-  // Routes that don't require authentication
-  const isAuthRoute =
+  // Routes that are always public (no auth required)
+  const isPublicRoute =
+    pathname === '/' ||
     pathname.startsWith('/login') ||
     pathname.startsWith('/signup') ||
+    pathname.startsWith('/forgot-password') ||
     pathname.startsWith('/auth')
 
   // Routes authenticated users can access that aren't the main app
@@ -19,13 +21,14 @@ export async function proxy(request: NextRequest) {
     pathname.startsWith('/onboarding') ||
     pathname.startsWith('/welcome')
 
-  if (!user && !isAuthRoute && !isOnboardingRoute) {
+  if (!user && !isPublicRoute && !isOnboardingRoute) {
     const url = request.nextUrl.clone()
     url.pathname = '/login'
     return NextResponse.redirect(url)
   }
 
-  if (user && (pathname === '/login' || pathname === '/signup')) {
+  // Redirect authenticated users away from auth pages to dashboard
+  if (user && (pathname === '/login' || pathname === '/signup' || pathname === '/forgot-password')) {
     const url = request.nextUrl.clone()
     url.pathname = '/dashboard'
     return NextResponse.redirect(url)

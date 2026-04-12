@@ -60,6 +60,15 @@
 /* ─── Light mode (system default) ───────────────────────────────────────── */
 
 :root {
+  /* Landing page tokens */
+  --landing-bg:        #0a0a08;
+  --landing-accent:    #c8f060;
+  --landing-accent2:   #7ef0c8;
+  --landing-text:      #f0ede6;
+  --landing-muted:     #7a7870;
+  --landing-border:    rgba(255, 255, 255, 0.08);
+  --landing-card-bg:   rgba(255, 255, 255, 0.035);
+
   /* Surfaces */
   --c-bg:              #F5F5FA;
   --c-surface:         #FFFFFF;
@@ -245,6 +254,21 @@
   letter-spacing: 0.09em;
   color: var(--c-text-3);
   margin-bottom: 0.75rem;
+}
+
+/* ─── Landing Page Animations ────────────────────────────────────────────── */
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes drift {
+  from { transform: translate(0, 0) scale(1); }
+  to   { transform: translate(40px, 60px) scale(1.08); }
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.4; transform: scale(0.7); }
 }
 
 /* ─── Scrollbar ──────────────────────────────────────────────────────────── */
