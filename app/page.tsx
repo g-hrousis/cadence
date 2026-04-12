@@ -1,30 +1,8 @@
-import { DM_Serif_Display, DM_Mono, DM_Sans } from 'next/font/google'
 import Link from 'next/link'
-
-const dmSerif = DM_Serif_Display({
-  subsets: ['latin'],
-  weight: '400',
-  style: ['normal', 'italic'],
-  variable: '--font-dm-serif',
-})
-
-const dmMono = DM_Mono({
-  subsets: ['latin'],
-  weight: ['400', '500'],
-  variable: '--font-dm-mono',
-})
-
-const dmSans = DM_Sans({
-  subsets: ['latin'],
-  weight: ['300', '400', '500'],
-  variable: '--font-dm-sans',
-})
 
 export default function LandingPage() {
   return (
-    <div
-      className={`${dmSerif.variable} ${dmMono.variable} ${dmSans.variable} landing-root`}
-    >
+    <div className="landing-root">
       <style>{`
         .landing-root {
           background: var(--landing-bg);

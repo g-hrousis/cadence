@@ -11,7 +11,7 @@ export function PipelineHealth({ stats }: PipelineHealthProps) {
       count: stats.coldContacts,
       label: 'At-Risk\nContacts',
       href: '/contacts',
-      color: stats.coldContacts > 0 ? 'text-[#4F7AFF]' : 'text-text-ghost',
+      color: stats.coldContacts > 0 ? 'text-[var(--c-accent)]' : 'text-text-ghost',
     },
     {
       count: stats.staleOpportunities,
@@ -23,7 +23,7 @@ export function PipelineHealth({ stats }: PipelineHealthProps) {
       count: stats.overdue,
       label: 'Overdue\nTasks',
       href: '/tasks',
-      color: stats.overdue > 0 ? 'text-[#4F7AFF]' : 'text-text-ghost',
+      color: stats.overdue > 0 ? 'text-[var(--c-accent)]' : 'text-text-ghost',
     },
   ]
 

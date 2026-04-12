@@ -62,7 +62,7 @@ export default function ForgotPasswordPage() {
                   required
                   value={email}
                   onChange={e => setEmail(e.target.value)}
-                  className="w-full bg-surface-card border border-border-normal rounded-lg px-3 py-2.5 text-sm text-text-primary placeholder-text-ghost focus:outline-none focus:border-[#4F7AFF] focus:ring-1 focus:ring-[rgba(79,122,255,0.3)] transition-colors"
+                  className="w-full bg-surface-card border border-border-normal rounded-lg px-3 py-2.5 text-sm text-text-primary placeholder-text-ghost focus:outline-none focus:border-[var(--c-accent)] focus:ring-1 focus:ring-[rgba(200,240,96,0.2)] transition-colors"
                   placeholder="you@example.com"
                 />
               </div>
@@ -76,7 +76,7 @@ export default function ForgotPasswordPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-[#4F7AFF] hover:bg-[#6B91FF] text-white text-sm font-semibold py-2.5 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed mt-1"
+                className="w-full bg-primary hover:opacity-90 text-primary-foreground text-sm font-semibold py-2.5 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed mt-1"
               >
                 {loading ? 'Sending…' : 'Send reset link'}
               </button>
@@ -84,7 +84,7 @@ export default function ForgotPasswordPage() {
           )}
 
           <p className="text-sm text-text-dim text-center mt-5">
-            <Link href="/login" className="text-[#4F7AFF] hover:text-[#7A9BFF] transition-colors">
+            <Link href="/login" className="text-[var(--c-accent)] hover:opacity-80 transition-colors">
               ← Back to sign in
             </Link>
           </p>

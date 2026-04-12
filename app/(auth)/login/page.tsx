@@ -59,7 +59,7 @@ export default function LoginPage() {
                 required
                 value={email}
                 onChange={e => setEmail(e.target.value)}
-                className="w-full bg-surface-card border border-border-normal rounded-lg px-3 py-2.5 text-sm text-text-primary placeholder-text-ghost focus:outline-none focus:border-[#4F7AFF] focus:ring-1 focus:ring-[rgba(79,122,255,0.3)] transition-colors"
+                className="w-full bg-surface-card border border-border-normal rounded-lg px-3 py-2.5 text-sm text-text-primary placeholder-text-ghost focus:outline-none focus:border-[var(--c-accent)] focus:ring-1 focus:ring-[rgba(200,240,96,0.2)] transition-colors"
                 placeholder="you@example.com"
               />
             </div>
@@ -70,7 +70,7 @@ export default function LoginPage() {
                 </label>
                 <Link
                   href="/forgot-password"
-                  className="text-xs text-text-dim hover:text-[#4F7AFF] transition-colors"
+                  className="text-xs text-text-dim hover:text-[var(--c-accent)] transition-colors"
                 >
                   Forgot password?
                 </Link>
@@ -81,7 +81,7 @@ export default function LoginPage() {
                   required
                   value={password}
                   onChange={e => setPassword(e.target.value)}
-                  className="w-full bg-surface-card border border-border-normal rounded-lg px-3 py-2.5 pr-10 text-sm text-text-primary placeholder-text-ghost focus:outline-none focus:border-[#4F7AFF] focus:ring-1 focus:ring-[rgba(79,122,255,0.3)] transition-colors"
+                  className="w-full bg-surface-card border border-border-normal rounded-lg px-3 py-2.5 pr-10 text-sm text-text-primary placeholder-text-ghost focus:outline-none focus:border-[var(--c-accent)] focus:ring-1 focus:ring-[rgba(200,240,96,0.2)] transition-colors"
                   placeholder="••••••••"
                 />
                 <button
@@ -104,7 +104,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-[#4F7AFF] hover:bg-[#6B91FF] text-white text-sm font-semibold py-2.5 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed mt-1"
+              className="w-full bg-primary hover:opacity-90 text-primary-foreground text-sm font-semibold py-2.5 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed mt-1"
             >
               {loading ? 'Signing in…' : 'Sign in'}
             </button>
@@ -112,7 +112,7 @@ export default function LoginPage() {
 
           <p className="text-sm text-text-dim text-center mt-5">
             No account?{' '}
-            <Link href="/signup" className="text-[#4F7AFF] hover:text-[#7A9BFF] transition-colors">
+            <Link href="/signup" className="text-[var(--c-accent)] hover:opacity-80 transition-colors">
               Sign up
             </Link>
           </p>

@@ -10,8 +10,8 @@ function ChannelIcon({ channel }: { channel: string }) {
 
   if (channel === 'linkedin') {
     return (
-      <div className={`${base} bg-[rgba(79,122,255,0.12)]`}>
-        <svg className="w-3 h-3 text-[#4F7AFF]" viewBox="0 0 24 24" fill="currentColor">
+      <div className={`${base} bg-[rgba(200,240,96,0.1)]`}>
+        <svg className="w-3 h-3 text-[var(--c-accent)]" viewBox="0 0 24 24" fill="currentColor">
           <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z" />
           <circle cx="4" cy="4" r="2" />
         </svg>
@@ -58,7 +58,7 @@ export function RecentActivity({ interactions }: RecentActivityProps) {
           <h2 className="text-sm font-semibold text-text-primary">Recent Activity</h2>
           <GuideButton guideKey="interaction" />
         </div>
-        <Link href="/contacts" className="text-xs text-[#4F7AFF] hover:text-[#7A9BFF] transition-colors font-medium">
+        <Link href="/contacts" className="text-xs text-[var(--c-accent)] hover:opacity-80 transition-colors font-medium">
           See all
         </Link>
       </div>
@@ -66,7 +66,7 @@ export function RecentActivity({ interactions }: RecentActivityProps) {
       {interactions.length === 0 ? (
         <p className="text-xs text-text-dim">
           No activity yet.{' '}
-          <Link href="/contacts/new" className="text-[#4F7AFF] hover:text-[#7A9BFF]">
+          <Link href="/contacts/new" className="text-[var(--c-accent)] hover:opacity-80">
             Add a contact
           </Link>
         </p>

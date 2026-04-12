@@ -25,7 +25,7 @@ export function ActionFeed({ items, contactCount }: ActionFeedProps) {
           </p>
           <Link
             href="/contacts/new"
-            className="inline-flex items-center text-xs font-semibold bg-accent-blue-muted text-[#4F7AFF] px-4 py-2 rounded-lg hover:bg-accent-blue-hover transition-colors"
+            className="inline-flex items-center text-xs font-semibold bg-accent-blue-muted text-[var(--c-accent)] px-4 py-2 rounded-lg hover:bg-accent-blue-hover transition-colors"
           >
             Add first contact
           </Link>
@@ -48,7 +48,7 @@ export function ActionFeed({ items, contactCount }: ActionFeedProps) {
           <p className="text-sm font-semibold text-text-primary mb-1">Queue is clear</p>
           <p className="text-xs text-text-muted">
             No follow-ups, no cold contacts, no stale deals.{' '}
-            <Link href="/contacts/new" className="text-[#4F7AFF] hover:text-[#7A9BFF]">
+            <Link href="/contacts/new" className="text-[var(--c-accent)] hover:opacity-80">
               Add contacts
             </Link>{' '}
             to keep building.

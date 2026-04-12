@@ -35,7 +35,7 @@ export function OpportunityForm({ opportunity, contacts, linkedContactIds = [] }
           name="title"
           required
           defaultValue={opportunity?.title}
-          className="w-full bg-surface-elevated border border-border-normal rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full bg-surface-elevated border border-border-normal rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-[rgba(200,240,96,0.25)]"
           placeholder="Software Engineer at Acme"
         />
       </div>
@@ -46,7 +46,7 @@ export function OpportunityForm({ opportunity, contacts, linkedContactIds = [] }
           <select
             name="type"
             defaultValue={opportunity?.type ?? 'job'}
-            className="w-full bg-surface-elevated border border-border-normal rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full bg-surface-elevated border border-border-normal rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-[rgba(200,240,96,0.25)]"
           >
             <option value="job">Job</option>
             <option value="referral">Referral</option>
@@ -59,7 +59,7 @@ export function OpportunityForm({ opportunity, contacts, linkedContactIds = [] }
           <select
             name="status"
             defaultValue={opportunity?.status ?? 'networking'}
-            className="w-full bg-surface-elevated border border-border-normal rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full bg-surface-elevated border border-border-normal rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-[rgba(200,240,96,0.25)]"
           >
             <option value="networking">Networking</option>
             <option value="applied">Applied</option>
@@ -99,7 +99,7 @@ export function OpportunityForm({ opportunity, contacts, linkedContactIds = [] }
         <button
           type="submit"
           disabled={isPending}
-          className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors disabled:opacity-50"
+          className="bg-primary hover:opacity-90 text-primary-foreground text-sm font-medium px-4 py-2 rounded-lg transition-colors disabled:opacity-50"
         >
           {isPending ? 'Saving…' : opportunity ? 'Save changes' : 'Add opportunity'}
         </button>

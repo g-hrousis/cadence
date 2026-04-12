@@ -32,8 +32,8 @@ function TaskIcon({ overdue }: { overdue?: boolean }) {
 
 function ContactIcon() {
   return (
-    <div className="w-7 h-7 rounded-lg bg-[rgba(79,122,255,0.1)] flex items-center justify-center shrink-0">
-      <svg className="w-3.5 h-3.5 text-[#4F7AFF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <div className="w-7 h-7 rounded-lg bg-[rgba(200,240,96,0.1)] flex items-center justify-center shrink-0">
+      <svg className="w-3.5 h-3.5 text-[var(--c-accent)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
           d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
       </svg>
@@ -138,7 +138,7 @@ export function ActionItem({ item }: ActionItemProps) {
           {isTask && item.taskId && (
             <button
               onClick={handleComplete}
-              className="inline-flex items-center text-xs font-semibold bg-accent-blue-muted text-[#4F7AFF] px-3 py-1.5 rounded-md hover:bg-accent-blue-hover active:scale-95 transition-all"
+              className="inline-flex items-center text-xs font-semibold bg-accent-blue-muted text-[var(--c-accent)] px-3 py-1.5 rounded-md hover:bg-accent-blue-hover active:scale-95 transition-all"
             >
               {ctaLabel[item.type]}
             </button>
@@ -147,7 +147,7 @@ export function ActionItem({ item }: ActionItemProps) {
           {isContact && item.contactId && (
             <Link
               href={`/contacts/${item.contactId}`}
-              className="inline-flex items-center text-xs font-semibold bg-accent-blue-muted text-[#4F7AFF] px-3 py-1.5 rounded-md hover:bg-accent-blue-hover active:scale-95 transition-all"
+              className="inline-flex items-center text-xs font-semibold bg-accent-blue-muted text-[var(--c-accent)] px-3 py-1.5 rounded-md hover:bg-accent-blue-hover active:scale-95 transition-all"
             >
               {ctaLabel[item.type]}
             </Link>
@@ -156,7 +156,7 @@ export function ActionItem({ item }: ActionItemProps) {
           {isOpportunity && item.opportunityId && (
             <button
               onClick={handleMarkActive}
-              className="inline-flex items-center text-xs font-semibold bg-accent-blue-muted text-[#4F7AFF] px-3 py-1.5 rounded-md hover:bg-accent-blue-hover active:scale-95 transition-all"
+              className="inline-flex items-center text-xs font-semibold bg-accent-blue-muted text-[var(--c-accent)] px-3 py-1.5 rounded-md hover:bg-accent-blue-hover active:scale-95 transition-all"
             >
               {ctaLabel[item.type]}
             </button>

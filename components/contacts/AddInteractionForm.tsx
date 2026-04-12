@@ -20,7 +20,7 @@ const OUTCOMES: { value: Outcome; label: string }[] = [
 ]
 
 const inputClass =
-  'w-full bg-surface-sidebar border border-border-normal rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:border-[#4F7AFF] transition-colors'
+  'w-full bg-surface-sidebar border border-border-normal rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:border-[var(--c-accent)] transition-colors'
 
 const labelClass = 'block text-xs font-medium text-text-secondary mb-1.5'
 
@@ -54,7 +54,7 @@ export function AddInteractionForm({ contactId }: { contactId: string }) {
     return (
       <button
         onClick={() => setOpen(true)}
-        className="text-xs font-semibold text-[#4F7AFF] hover:text-[#7A9BFF] transition-colors"
+        className="text-xs font-semibold text-[var(--c-accent)] hover:text-[#7A9BFF] transition-colors"
       >
         + Log interaction
       </button>
@@ -99,7 +99,7 @@ export function AddInteractionForm({ contactId }: { contactId: string }) {
       {/* Live follow-up preview */}
       <div className={`flex items-start gap-2 px-3 py-2.5 rounded-lg text-xs leading-snug ${
         config.createTask
-          ? 'bg-[rgba(79,122,255,0.06)] border border-[rgba(79,122,255,0.15)] text-text-secondary'
+          ? 'bg-[rgba(200,240,96,0.06)] border border-[rgba(200,240,96,0.15)] text-text-secondary'
           : 'bg-[rgba(34,197,94,0.05)] border border-[rgba(34,197,94,0.12)] text-text-secondary'
       }`}>
         <span className="shrink-0 mt-px">
@@ -107,7 +107,7 @@ export function AddInteractionForm({ contactId }: { contactId: string }) {
         </span>
         <span>
           {config.createTask
-            ? <><span className="text-text-primary font-medium">{config.description.split('—')[0].trim()}</span>{config.description.includes('—') ? ` — ${config.description.split('—')[1].trim()}` : ''} Task due <span className="text-[#4F7AFF] font-medium">{followUpDate}</span>.</>
+            ? <><span className="text-text-primary font-medium">{config.description.split('—')[0].trim()}</span>{config.description.includes('—') ? ` — ${config.description.split('—')[1].trim()}` : ''} Task due <span className="text-[var(--c-accent)] font-medium">{followUpDate}</span>.</>
             : <><span className="text-[#22C55E] font-medium">{config.description}</span></>
           }
         </span>
@@ -141,7 +141,7 @@ export function AddInteractionForm({ contactId }: { contactId: string }) {
         <button
           type="submit"
           disabled={isPending}
-          className="bg-[#4F7AFF] hover:bg-[#3D67E8] text-white text-xs font-semibold px-3.5 py-2 rounded-lg transition-colors disabled:opacity-50"
+          className="bg-primary hover:opacity-90 text-primary-foreground text-xs font-semibold px-3.5 py-2 rounded-lg transition-colors disabled:opacity-50"
         >
           {isPending ? 'Saving…' : 'Log interaction'}
         </button>

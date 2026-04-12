@@ -8,11 +8,11 @@ import Image from 'next/image'
 
 const STEPS = [
   {
-    accent: '#4F7AFF',
-    bg: 'rgba(79,122,255,0.12)',
-    border: 'rgba(79,122,255,0.2)',
+    accent: 'var(--c-accent)',
+    bg: 'rgba(200,240,96,0.12)',
+    border: 'rgba(200,240,96,0.2)',
     icon: (
-      <svg className="w-8 h-8 text-[#4F7AFF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg className="w-8 h-8 text-[var(--c-accent)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75}
           d="M13 10V3L4 14h7v7l9-11h-7z" />
       </svg>
@@ -64,11 +64,11 @@ const STEPS = [
     cta: 'Next',
   },
   {
-    accent: '#4F7AFF',
-    bg: 'rgba(79,122,255,0.12)',
-    border: 'rgba(79,122,255,0.2)',
+    accent: 'var(--c-accent)',
+    bg: 'rgba(200,240,96,0.12)',
+    border: 'rgba(200,240,96,0.2)',
     icon: (
-      <svg className="w-8 h-8 text-[#4F7AFF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg className="w-8 h-8 text-[var(--c-accent)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75}
           d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
       </svg>
@@ -116,9 +116,9 @@ export default function WelcomePage() {
       <div className="w-full max-w-md">
 
         {/* Progress bar */}
-        <div className="h-0.5 bg-[#1C1C2E] rounded-full mb-8 overflow-hidden">
+        <div className="h-0.5 bg-surface-elevated rounded-full mb-8 overflow-hidden">
           <div
-            className="h-full bg-[#4F7AFF] rounded-full transition-all duration-500"
+            className="h-full bg-[var(--c-accent)] rounded-full transition-all duration-500"
             style={{ width: `${progress}%` }}
           />
         </div>
@@ -161,7 +161,7 @@ export default function WelcomePage() {
                 style={{
                   width: i === step ? '20px' : '6px',
                   height: '6px',
-                  background: i === step ? '#4F7AFF' : i < step ? '#2A3A7A' : '#1C1C2E',
+                  background: i === step ? 'var(--c-accent)' : i < step ? 'rgba(200,240,96,0.35)' : 'var(--c-hover)',
                 }}
               />
             </button>
@@ -171,7 +171,7 @@ export default function WelcomePage() {
         {/* CTA */}
         <button
           onClick={next}
-          className="w-full bg-[#4F7AFF] hover:bg-[#6B91FF] text-white text-sm font-semibold py-3 rounded-xl transition-colors"
+          className="w-full bg-primary hover:opacity-90 text-primary-foreground text-sm font-semibold py-3 rounded-xl transition-colors"
         >
           {current.cta} {!isLast && '→'}
         </button>

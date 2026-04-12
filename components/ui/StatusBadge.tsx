@@ -1,7 +1,7 @@
 import { cn } from '@/lib/utils'
 
 const variants = {
-  blue:   'bg-blue-50 text-blue-700 border border-blue-200 dark:bg-[rgba(79,122,255,0.12)] dark:text-[#4F7AFF] dark:border-[rgba(79,122,255,0.25)]',
+  blue:   'bg-blue-50 text-blue-700 border border-blue-200 dark:bg-[rgba(200,240,96,0.1)] dark:text-[var(--c-accent)] dark:border-[rgba(200,240,96,0.2)]',
   green:  'bg-green-50 text-green-700 border border-green-200 dark:bg-[rgba(34,197,94,0.1)] dark:text-[#22C55E] dark:border-[rgba(34,197,94,0.2)]',
   yellow: 'bg-yellow-50 text-yellow-700 border border-yellow-200 dark:bg-[rgba(251,191,36,0.1)] dark:text-[#FBBF24] dark:border-[rgba(251,191,36,0.2)]',
   red:    'bg-red-50 text-red-600 border border-red-200 dark:bg-[rgba(248,113,113,0.1)] dark:text-[#F87171] dark:border-[rgba(248,113,113,0.2)]',
