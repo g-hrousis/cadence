@@ -55,7 +55,7 @@ export default async function DashboardPage() {
     stats.overdue + stats.dueToday > 0 && {
       label: `${stats.overdue + stats.dueToday} Follow-up${stats.overdue + stats.dueToday !== 1 ? 's' : ''} Due`,
       href: '/tasks',
-      color: 'text-[#4F7AFF] bg-[rgba(79,122,255,0.1)] border-[rgba(79,122,255,0.2)]',
+      color: 'text-[var(--c-accent)] bg-[rgba(200,240,96,0.1)] border-[rgba(200,240,96,0.2)]',
     },
     stats.coldContacts > 0 && {
       label: `${stats.coldContacts} Contact${stats.coldContacts !== 1 ? 's' : ''} Going Cold`,

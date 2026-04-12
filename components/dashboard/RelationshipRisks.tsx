@@ -13,7 +13,7 @@ function Initials({ name }: { name?: string }) {
     .slice(0, 2)
     .toUpperCase()
   return (
-    <div className="w-7 h-7 rounded-full bg-[#1C1C2E] border border-border-normal flex items-center justify-center shrink-0">
+    <div className="w-7 h-7 rounded-full bg-surface-elevated border border-border-normal flex items-center justify-center shrink-0">
       <span className="text-[10px] font-semibold text-text-secondary">{letters}</span>
     </div>
   )
@@ -88,7 +88,7 @@ export function RelationshipRisks({ items }: RelationshipRisksProps) {
             href="/contacts"
             className="flex items-center gap-3 py-2.5 hover:bg-[rgba(255,255,255,0.02)] -mx-4 px-4 transition-colors"
           >
-            <div className="w-7 h-7 rounded-full bg-[#1C1C2E] border border-border-normal flex items-center justify-center shrink-0">
+            <div className="w-7 h-7 rounded-full bg-surface-elevated border border-border-normal flex items-center justify-center shrink-0">
               <span className="text-[10px] font-semibold text-text-secondary">+{overflow}</span>
             </div>
             <div className="flex-1">

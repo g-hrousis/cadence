@@ -3,7 +3,7 @@ import type { Opportunity } from '@/types'
 import { GuideButton } from '@/components/ui/GuideModal'
 
 const STAGES = [
-  { key: 'applied',      label: 'Applied',      nextStep: 'Follow Up',          dot: 'bg-[#4F7AFF]' },
+  { key: 'applied',      label: 'Applied',      nextStep: 'Follow Up',          dot: 'bg-[var(--c-accent)]' },
   { key: 'networking',   label: 'Networking',   nextStep: 'Coffee Chat',        dot: 'bg-[#A78BFA]' },
   { key: 'interviewing', label: 'Interviewing', nextStep: 'Prep for Interview', dot: 'bg-[#FBBF24]' },
   { key: 'offer',        label: 'Offer',        nextStep: 'Offer Review',       dot: 'bg-[#22C55E]' },
@@ -38,7 +38,7 @@ export function PipelinePulse({ opportunities }: PipelinePulseProps) {
         </div>
         <Link
           href="/opportunities"
-          className="text-xs text-[#4F7AFF] hover:text-[#7A9BFF] font-medium transition-colors"
+          className="text-xs text-[var(--c-accent)] hover:opacity-80 font-medium transition-colors"
         >
           View all
         </Link>
@@ -47,7 +47,7 @@ export function PipelinePulse({ opportunities }: PipelinePulseProps) {
       {active.length === 0 ? (
         <p className="text-xs text-text-muted">
           No active opportunities.{' '}
-          <Link href="/opportunities/new" className="text-[#4F7AFF] hover:text-[#7A9BFF]">
+          <Link href="/opportunities/new" className="text-[var(--c-accent)] hover:opacity-80">
             Track one
           </Link>
         </p>

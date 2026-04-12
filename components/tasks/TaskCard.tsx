@@ -27,7 +27,7 @@ export function TaskCard({ task }: { task: TaskWithRelations }) {
           'mt-0.5 w-4 h-4 rounded border shrink-0 transition-colors',
           overdue
             ? 'border-[rgba(248,113,113,0.4)] hover:bg-[rgba(248,113,113,0.15)]'
-            : 'border-border-strong hover:border-[#4F7AFF] hover:bg-[rgba(79,122,255,0.1)]'
+            : 'border-border-strong hover:border-[var(--c-accent)] hover:bg-[rgba(200,240,96,0.1)]'
         )}
         title="Mark complete"
       />
@@ -54,7 +54,7 @@ export function TaskCard({ task }: { task: TaskWithRelations }) {
           {task.contacts && (
             <Link
               href={`/contacts/${task.linked_contact_id}`}
-              className="text-xs text-[#4F7AFF] hover:text-[#7A9BFF] transition-colors"
+              className="text-xs text-[var(--c-accent)] hover:opacity-80 transition-colors"
               onClick={e => e.stopPropagation()}
             >
               {task.contacts.name}
@@ -75,7 +75,7 @@ export function TaskCard({ task }: { task: TaskWithRelations }) {
       <button
         onClick={() => startTransition(() => deleteTask(task.id))}
         disabled={isPending}
-        className="text-xs text-[#383850] hover:text-[#F87171] transition-colors shrink-0 mt-0.5"
+        className="text-xs text-text-ghost hover:text-[#F87171] transition-colors shrink-0 mt-0.5"
         title="Delete task"
       >
         ✕

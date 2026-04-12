@@ -20,7 +20,7 @@ export default async function ContactsPage() {
         </div>
         <Link
           href="/contacts/new"
-          className="bg-accent-blue-muted hover:bg-accent-blue-hover text-[#4F7AFF] text-sm font-medium px-4 py-2 rounded-lg transition-colors"
+          className="bg-accent-blue-muted hover:bg-accent-blue-hover text-[var(--c-accent)] text-sm font-medium px-4 py-2 rounded-lg transition-colors"
         >
           Add contact
         </Link>
@@ -29,7 +29,7 @@ export default async function ContactsPage() {
       {!contacts || contacts.length === 0 ? (
         <div className="c-card-p text-center py-12">
           <p className="text-text-muted text-sm mb-4">No contacts yet. Start by adding someone from your network.</p>
-          <Link href="/contacts/new" className="text-[#4F7AFF] hover:text-[#7A9BFF] text-sm font-medium">
+          <Link href="/contacts/new" className="text-[var(--c-accent)] hover:opacity-80 text-sm font-medium">
             Add your first contact
           </Link>
         </div>

@@ -10,7 +10,7 @@ function SubmitButton() {
     <button
       type="submit"
       disabled={pending}
-      className="w-full bg-[#4F7AFF] text-white text-sm font-semibold py-3 rounded-xl hover:bg-[#3D67E8] transition-colors disabled:opacity-50 disabled:cursor-not-allowed mt-2"
+      className="w-full bg-primary text-primary-foreground text-sm font-semibold py-3 rounded-xl hover:opacity-90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed mt-2"
     >
       {pending ? 'Saving\u2026' : "Let\u2019s go \u2192"}
     </button>
@@ -45,7 +45,7 @@ export function IntakeForm({ firstName, lastName, targetedJob, industry }: Intak
             autoFocus
             placeholder="Alex"
             suppressHydrationWarning
-            className="w-full bg-[#16161F] border border-[rgba(255,255,255,0.08)] rounded-xl px-3.5 py-2.5 text-sm text-[#EDEDF2] placeholder:text-[#585870] focus:outline-none focus:border-[#4F7AFF] transition-colors"
+            className="w-full bg-surface-elevated border border-border-subtle rounded-xl px-3.5 py-2.5 text-sm text-text-primary placeholder:text-text-ghost focus:outline-none focus:border-[var(--c-accent)] transition-colors"
           />
         </div>
         <div>
@@ -55,7 +55,7 @@ export function IntakeForm({ firstName, lastName, targetedJob, industry }: Intak
             defaultValue={lastName ?? ''}
             placeholder="Rivera"
             suppressHydrationWarning
-            className="w-full bg-[#16161F] border border-[rgba(255,255,255,0.08)] rounded-xl px-3.5 py-2.5 text-sm text-[#EDEDF2] placeholder:text-[#585870] focus:outline-none focus:border-[#4F7AFF] transition-colors"
+            className="w-full bg-surface-elevated border border-border-subtle rounded-xl px-3.5 py-2.5 text-sm text-text-primary placeholder:text-text-ghost focus:outline-none focus:border-[var(--c-accent)] transition-colors"
           />
         </div>
       </div>
@@ -67,9 +67,9 @@ export function IntakeForm({ firstName, lastName, targetedJob, industry }: Intak
           defaultValue={targetedJob ?? ''}
           placeholder="Product Manager, Software Engineer, Investment Analyst\u2026"
           suppressHydrationWarning
-          className="w-full bg-[#16161F] border border-[rgba(255,255,255,0.08)] rounded-xl px-3.5 py-2.5 text-sm text-[#EDEDF2] placeholder:text-[#585870] focus:outline-none focus:border-[#4F7AFF] transition-colors"
+          className="w-full bg-surface-elevated border border-border-subtle rounded-xl px-3.5 py-2.5 text-sm text-text-primary placeholder:text-text-ghost focus:outline-none focus:border-[var(--c-accent)] transition-colors"
         />
-        <p className="text-[10px] text-[#585870] mt-1.5">We'll use this to personalize your pipeline and surface relevant keywords.</p>
+        <p className="text-[10px] text-text-ghost mt-1.5">We'll use this to personalize your pipeline and surface relevant keywords.</p>
       </div>
 
       <div>
@@ -79,7 +79,7 @@ export function IntakeForm({ firstName, lastName, targetedJob, industry }: Intak
           defaultValue={industry ?? ''}
           placeholder="Tech, Finance, Healthcare, Consulting\u2026"
           suppressHydrationWarning
-          className="w-full bg-[#16161F] border border-[rgba(255,255,255,0.08)] rounded-xl px-3.5 py-2.5 text-sm text-[#EDEDF2] placeholder:text-[#585870] focus:outline-none focus:border-[#4F7AFF] transition-colors"
+          className="w-full bg-surface-elevated border border-border-subtle rounded-xl px-3.5 py-2.5 text-sm text-text-primary placeholder:text-text-ghost focus:outline-none focus:border-[var(--c-accent)] transition-colors"
         />
       </div>
 

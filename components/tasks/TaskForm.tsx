@@ -28,7 +28,7 @@ export function TaskForm({ contacts, opportunities, compact = false }: TaskFormP
     return (
       <button
         onClick={() => setOpen(true)}
-        className="text-sm text-blue-600 hover:text-blue-700 font-medium"
+        className="text-sm text-[var(--c-accent)] hover:opacity-80 font-medium"
       >
         + Add task
       </button>
@@ -42,7 +42,7 @@ export function TaskForm({ contacts, opportunities, compact = false }: TaskFormP
         <input
           name="title"
           required
-          className="w-full bg-surface-elevated border border-border-normal rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full bg-surface-elevated border border-border-normal rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-[rgba(200,240,96,0.25)]"
           placeholder="Follow up with Jane about referral"
         />
       </div>
@@ -52,7 +52,7 @@ export function TaskForm({ contacts, opportunities, compact = false }: TaskFormP
         <input
           name="due_date"
           type="date"
-          className="w-full bg-surface-elevated border border-border-normal rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full bg-surface-elevated border border-border-normal rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-[rgba(200,240,96,0.25)]"
         />
       </div>
 
@@ -62,7 +62,7 @@ export function TaskForm({ contacts, opportunities, compact = false }: TaskFormP
             <label className="block text-xs font-medium text-text-secondary mb-1">Contact (optional)</label>
             <select
               name="linked_contact_id"
-              className="w-full bg-surface-elevated border border-border-normal rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full bg-surface-elevated border border-border-normal rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-[rgba(200,240,96,0.25)]"
             >
               <option value="">None</option>
               {contacts.map(c => (
@@ -77,7 +77,7 @@ export function TaskForm({ contacts, opportunities, compact = false }: TaskFormP
             <label className="block text-xs font-medium text-text-secondary mb-1">Opportunity (optional)</label>
             <select
               name="linked_opportunity_id"
-              className="w-full bg-surface-elevated border border-border-normal rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full bg-surface-elevated border border-border-normal rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-[rgba(200,240,96,0.25)]"
             >
               <option value="">None</option>
               {opportunities.map(o => (
@@ -92,7 +92,7 @@ export function TaskForm({ contacts, opportunities, compact = false }: TaskFormP
         <button
           type="submit"
           disabled={isPending}
-          className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors disabled:opacity-50"
+          className="bg-primary hover:opacity-90 text-primary-foreground text-sm font-medium px-4 py-2 rounded-lg transition-colors disabled:opacity-50"
         >
           {isPending ? 'Adding…' : 'Add task'}
         </button>

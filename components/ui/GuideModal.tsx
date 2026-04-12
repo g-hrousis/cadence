@@ -104,29 +104,29 @@ const TaskAutoIcon = (
 const GUIDES: Record<string, Guide> = {
   contact: {
     title: 'Add a Contact',
-    accent: 'text-[#4F7AFF]',
-    accentBg: 'bg-[rgba(79,122,255,0.12)]',
-    accentBorder: 'border-[rgba(79,122,255,0.25)]',
+    accent: 'text-[var(--c-accent)]',
+    accentBg: 'bg-[rgba(200,240,96,0.1)]',
+    accentBorder: 'border-[rgba(200,240,96,0.2)]',
     steps: [
       {
-        icon: <span className="text-[#4F7AFF]">{SidebarIcon}</span>,
+        icon: <span className="text-[var(--c-accent)]">{SidebarIcon}</span>,
         title: 'Open Contacts',
         body: 'Click "Contacts" in the left sidebar. This is your full network list — everyone you\'re tracking.',
       },
       {
-        icon: <span className="text-[#4F7AFF]">{FormIcon}</span>,
+        icon: <span className="text-[var(--c-accent)]">{FormIcon}</span>,
         title: 'Click + New Contact',
-        body: 'Hit the blue "New Contact" button in the top right. Fill in their name, company, role, and email.',
+        body: 'Hit the "New Contact" button in the top right. Fill in their name, company, role, and email.',
         tip: 'You can always add more details later — just a name is enough to get started.',
       },
       {
-        icon: <span className="text-[#4F7AFF]">{PersonPlusIcon}</span>,
+        icon: <span className="text-[var(--c-accent)]">{PersonPlusIcon}</span>,
         title: 'Set a follow-up cadence',
         body: 'Choose how often Cadence should remind you to follow up — every 7, 14, or 30 days. Cadence handles the rest.',
         tip: 'Recruiters and active leads = 7 days. Warm connections = 14–30 days.',
       },
       {
-        icon: <span className="text-[#4F7AFF]">{CheckCircleIcon}</span>,
+        icon: <span className="text-[var(--c-accent)]">{CheckCircleIcon}</span>,
         title: 'You\'re tracking them',
         body: 'Cadence will now surface this contact in Today\'s Moves when it\'s time to reach out. No spreadsheet needed.',
       },
@@ -258,7 +258,7 @@ export function GuideModal({ guideKey, onClose }: GuideModalProps) {
                   ? `w-6 ${guide.accentBg.replace('bg-', 'bg-').replace('/0.1', '/1').replace('/0.12', '/1')} ${guide.accent.replace('text-', 'bg-')}`
                   : i < step
                   ? `w-1.5 ${guide.accent.replace('text-', 'bg-')} opacity-40`
-                  : 'w-1.5 bg-[#2A2A3A]'
+                  : 'w-1.5 bg-surface-elevated'
               }`}
               style={i === step ? {} : {}}
               aria-label={`Go to step ${i + 1}`}

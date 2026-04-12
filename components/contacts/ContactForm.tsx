@@ -33,7 +33,7 @@ export function ContactForm({ contact }: ContactFormProps) {
           name="name"
           required
           defaultValue={contact?.name}
-          className="w-full bg-surface-elevated border border-border-normal rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full bg-surface-elevated border border-border-normal rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-[rgba(200,240,96,0.25)]"
           placeholder="Jane Smith"
         />
       </div>
@@ -44,7 +44,7 @@ export function ContactForm({ contact }: ContactFormProps) {
           <input
             name="company"
             defaultValue={contact?.company ?? ''}
-            className="w-full bg-surface-elevated border border-border-normal rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full bg-surface-elevated border border-border-normal rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-[rgba(200,240,96,0.25)]"
             placeholder="Acme Corp"
           />
         </div>
@@ -53,7 +53,7 @@ export function ContactForm({ contact }: ContactFormProps) {
           <input
             name="role"
             defaultValue={contact?.role ?? ''}
-            className="w-full bg-surface-elevated border border-border-normal rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full bg-surface-elevated border border-border-normal rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-[rgba(200,240,96,0.25)]"
             placeholder="Product Manager"
           />
         </div>
@@ -65,7 +65,7 @@ export function ContactForm({ contact }: ContactFormProps) {
           name="email"
           type="email"
           defaultValue={contact?.email ?? ''}
-          className="w-full bg-surface-elevated border border-border-normal rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full bg-surface-elevated border border-border-normal rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-[rgba(200,240,96,0.25)]"
           placeholder="jane@example.com"
         />
       </div>
@@ -77,7 +77,7 @@ export function ContactForm({ contact }: ContactFormProps) {
         <input
           name="tags"
           defaultValue={contact?.tags.join(', ')}
-          className="w-full bg-surface-elevated border border-border-normal rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full bg-surface-elevated border border-border-normal rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-[rgba(200,240,96,0.25)]"
           placeholder="recruiter, alumni, warm"
         />
       </div>
@@ -88,7 +88,7 @@ export function ContactForm({ contact }: ContactFormProps) {
           name="notes"
           rows={4}
           defaultValue={contact?.notes}
-          className="w-full bg-surface-elevated border border-border-normal rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+          className="w-full bg-surface-elevated border border-border-normal rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-[rgba(200,240,96,0.25)] resize-none"
           placeholder="Context about this contact…"
         />
       </div>
@@ -97,7 +97,7 @@ export function ContactForm({ contact }: ContactFormProps) {
         <button
           type="submit"
           disabled={isPending}
-          className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors disabled:opacity-50"
+          className="bg-primary hover:opacity-90 text-primary-foreground text-sm font-medium px-4 py-2 rounded-lg transition-colors disabled:opacity-50"
         >
           {isPending ? 'Saving…' : contact ? 'Save changes' : 'Add contact'}
         </button>

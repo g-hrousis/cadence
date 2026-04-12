@@ -8,8 +8,9 @@
 /* ─── Cadence Design Tokens ──────────────────────────────────────────────── */
 
 @theme inline {
-  --font-heading: var(--font-sans);
-  --font-sans: var(--font-sans);
+  --font-heading: var(--font-dm-serif);
+  --font-sans:    var(--font-dm-sans);
+  --font-mono:    var(--font-dm-mono);
 
   /* Surfaces — point to CSS vars that flip with system theme */
   --color-surface-base:     var(--c-bg);
@@ -31,10 +32,11 @@
   --color-text-dim:         var(--c-text-4);
   --color-text-ghost:       var(--c-text-5);
 
-  /* Accent */
-  --color-accent-blue:           #4F7AFF;
-  --color-accent-blue-muted:     var(--c-blue-muted);
-  --color-accent-blue-hover:     var(--c-blue-muted-hover);
+  /* Accent — primary action colour, flips per mode */
+  --color-accent:                var(--c-accent);
+  --color-accent-blue:           var(--c-accent);
+  --color-accent-blue-muted:     var(--c-accent-muted);
+  --color-accent-blue-hover:     var(--c-accent-muted-hover);
   --color-accent-green:          var(--c-green);
   --color-accent-amber:          var(--c-amber);
   --color-accent-red:            var(--c-red);
@@ -69,115 +71,121 @@
   --landing-border:    rgba(255, 255, 255, 0.08);
   --landing-card-bg:   rgba(255, 255, 255, 0.035);
 
-  /* Surfaces */
-  --c-bg:              #F5F5FA;
-  --c-surface:         #FFFFFF;
-  --c-elevated:        #F0F0F7;
-  --c-hover:           #E9E9F4;
-  --c-sidebar:         #EBEBF5;
-  --c-sunken:          #E0E0EE;
+  /* Surfaces — warm light */
+  --c-bg:              #f5f2ec;
+  --c-surface:         #fdfcf8;
+  --c-elevated:        #f0ede4;
+  --c-hover:           #e8e4db;
+  --c-sidebar:         #eeeae2;
+  --c-sunken:          #dedad1;
 
-  /* Borders */
-  --c-border-1:        rgba(70, 70, 120, 0.08);
-  --c-border-2:        rgba(70, 70, 120, 0.13);
-  --c-border-3:        rgba(70, 70, 120, 0.20);
+  /* Borders — warm-tinted */
+  --c-border-1:        rgba(70, 58, 30, 0.08);
+  --c-border-2:        rgba(70, 58, 30, 0.13);
+  --c-border-3:        rgba(70, 58, 30, 0.20);
 
-  /* Text */
-  --c-text-1:          #111118;
-  --c-text-2:          #4A4A6A;
-  --c-text-3:          #6A6A90;
-  --c-text-4:          #8888A8;
-  --c-text-5:          #A0A0BC;
+  /* Text — warm */
+  --c-text-1:          #1a1810;
+  --c-text-2:          #4a4740;
+  --c-text-3:          #6a6760;
+  --c-text-4:          #8a8780;
+  --c-text-5:          #aaa79e;
 
-  /* Accents */
-  --c-blue-muted:      #EEF2FF;
-  --c-blue-muted-hover:#E4EAFF;
-  --c-green:           #16A34A;
-  --c-amber:           #D97706;
-  --c-red:             #DC2626;
+  /* Accent — darker olive-green for light-bg readability */
+  --c-accent:          #6a9820;
+  --c-accent-muted:    rgba(106,152,32,0.10);
+  --c-accent-muted-hover:rgba(106,152,32,0.16);
+
+  /* Status colours */
+  --c-green:           #2a8050;
+  --c-amber:           #c07010;
+  --c-red:             #c02820;
 
   /* shadcn vars */
-  --background:        #F5F5FA;
-  --foreground:        #111118;
-  --card:              #FFFFFF;
-  --card-foreground:   #111118;
-  --popover:           #FFFFFF;
-  --popover-foreground:#111118;
-  --primary:           #4F7AFF;
+  --background:        #f5f2ec;
+  --foreground:        #1a1810;
+  --card:              #fdfcf8;
+  --card-foreground:   #1a1810;
+  --popover:           #fdfcf8;
+  --popover-foreground:#1a1810;
+  --primary:           #6a9820;
   --primary-foreground:#ffffff;
-  --secondary:         #F0F0F7;
-  --secondary-foreground:#111118;
-  --muted:             #F0F0F7;
-  --muted-foreground:  #6A6A90;
-  --accent:            #E9E9F4;
-  --accent-foreground: #111118;
-  --destructive:       #DC2626;
-  --border:            rgba(70,70,120,0.10);
-  --input:             rgba(70,70,120,0.10);
-  --ring:              #4F7AFF;
+  --secondary:         #f0ede4;
+  --secondary-foreground:#1a1810;
+  --muted:             #f0ede4;
+  --muted-foreground:  #6a6760;
+  --accent:            #e8e4db;
+  --accent-foreground: #1a1810;
+  --destructive:       #c02820;
+  --border:            rgba(70,58,30,0.10);
+  --input:             rgba(70,58,30,0.10);
+  --ring:              #6a9820;
   --radius:            0.75rem;
-  --sidebar:           #EBEBF5;
-  --sidebar-foreground:#111118;
-  --sidebar-primary:   #4F7AFF;
+  --sidebar:           #eeeae2;
+  --sidebar-foreground:#1a1810;
+  --sidebar-primary:   #6a9820;
   --sidebar-primary-foreground:#ffffff;
-  --sidebar-accent:    #E9E9F4;
-  --sidebar-accent-foreground:#111118;
-  --sidebar-border:    rgba(70,70,120,0.08);
-  --sidebar-ring:      #4F7AFF;
+  --sidebar-accent:    #e8e4db;
+  --sidebar-accent-foreground:#1a1810;
+  --sidebar-border:    rgba(70,58,30,0.08);
+  --sidebar-ring:      #6a9820;
 }
 
 /* ─── Dark mode (system preference) ─────────────────────────────────────── */
 
 @media (prefers-color-scheme: dark) {
   :root {
-    /* Surfaces */
-    --c-bg:              #09090E;
-    --c-surface:         #111118;
-    --c-elevated:        #16161F;
-    --c-hover:           #1A1A28;
-    --c-sidebar:         #0D0D14;
-    --c-sunken:          #2A2A3A;
+    /* Surfaces — warm dark matching landing page */
+    --c-bg:              #0a0a08;
+    --c-surface:         #111108;
+    --c-elevated:        #161610;
+    --c-hover:           #1c1c14;
+    --c-sidebar:         #080806;
+    --c-sunken:          #1e1e12;
 
     /* Borders */
     --c-border-1:        rgba(255,255,255,0.06);
     --c-border-2:        rgba(255,255,255,0.09);
     --c-border-3:        rgba(255,255,255,0.15);
 
-    /* Text */
-    --c-text-1:          #EDEDF2;
-    --c-text-2:          #9898B8;
-    --c-text-3:          #6A6A88;
-    --c-text-4:          #585870;
-    --c-text-5:          #484860;
+    /* Text — warm off-white matching landing page */
+    --c-text-1:          #f0ede6;
+    --c-text-2:          #a8a49c;
+    --c-text-3:          #7a7870;
+    --c-text-4:          #5a5854;
+    --c-text-5:          #3c3a36;
 
-    /* Accents */
-    --c-blue-muted:      #0F1940;
-    --c-blue-muted-hover:#162254;
-    --c-green:           #22C55E;
-    --c-amber:           #FBBF24;
-    --c-red:             #F87171;
+    /* Accent — landing page yellow-green */
+    --c-accent:          #c8f060;
+    --c-accent-muted:    rgba(200,240,96,0.10);
+    --c-accent-muted-hover:rgba(200,240,96,0.16);
+
+    /* Status colours — warm variants */
+    --c-green:           #7ef0c8;
+    --c-amber:           #f0c840;
+    --c-red:             #f07860;
 
     /* shadcn vars */
-    --background:        #09090E;
-    --foreground:        #EDEDF2;
-    --card:              #111118;
-    --card-foreground:   #EDEDF2;
-    --popover:           #16161F;
-    --popover-foreground:#EDEDF2;
-    --primary:           #4F7AFF;
-    --primary-foreground:#ffffff;
-    --secondary:         #16161F;
-    --secondary-foreground:#EDEDF2;
-    --muted:             #16161F;
-    --muted-foreground:  #9898B8;
-    --accent:            #1A1A28;
-    --accent-foreground: #EDEDF2;
-    --destructive:       #F87171;
+    --background:        #0a0a08;
+    --foreground:        #f0ede6;
+    --card:              #111108;
+    --card-foreground:   #f0ede6;
+    --popover:           #161610;
+    --popover-foreground:#f0ede6;
+    --primary:           #c8f060;
+    --primary-foreground:#0a0a08;
+    --secondary:         #1c1c14;
+    --secondary-foreground:#f0ede6;
+    --muted:             #1c1c14;
+    --muted-foreground:  #7a7870;
+    --accent:            #1c1c14;
+    --accent-foreground: #f0ede6;
+    --destructive:       #f07860;
     --border:            rgba(255,255,255,0.07);
     --input:             rgba(255,255,255,0.07);
-    --ring:              #4F7AFF;
-    --sidebar:           #0D0D14;
-    --sidebar-foreground:#EDEDF2;
+    --ring:              #c8f060;
+    --sidebar:           #080806;
+    --sidebar-foreground:#f0ede6;
     --sidebar-border:    rgba(255,255,255,0.06);
   }
 }
