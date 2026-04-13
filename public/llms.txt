@@ -1,0 +1,51 @@
+# Cadence OS
+
+> Cadence OS is a job search CRM for serious job seekers. Track contacts, manage follow-ups, and never let a warm lead go cold.
+
+Cadence OS helps job seekers manage their search like a sales pipeline. It combines contact relationship management, job application tracking, interaction logging, and smart follow-up reminders in one place — replacing the mental overhead of spreadsheets and sticky notes.
+
+## Who it's for
+
+Job seekers who are actively searching and want to:
+- Track job applications across every stage of the process
+- Manage their professional network with relationship warmth scoring
+- Never miss a follow-up with a recruiter, hiring manager, or referral
+- Understand their pipeline health at a glance
+- Log every touchpoint (emails, LinkedIn messages, calls, coffee chats)
+
+## Key Features
+
+- **Pipeline Board**: Track opportunities from Networking → Applied → Interviewing → Offer → Rejected
+- **Contact Management**: Full record of every person in your network — role, company, last contacted date, warmth score, and interaction history
+- **Interaction Logging**: Record LinkedIn messages, emails, calls, and in-person meetings with outcome tracking
+- **Follow-up Reminders**: Automatic task creation based on interaction channel and outcome (e.g. no response after LinkedIn → follow up in 5 days)
+- **Network Warmth Scoring**: Color-coded indicators show which contacts are hot, warm, cooling, or cold based on recency
+- **Dashboard**: Pipeline health, relationship risks, overdue follow-ups, and a daily action feed
+- **Bulk Import**: Add multiple contacts and job applications in one batch
+- **Screenshot Import**: Upload a LinkedIn profile screenshot or business card — AI extracts the contact information automatically
+- **Alert Badges**: Red badge on the dashboard when overdue follow-ups need attention
+- **Mobile Friendly**: Bottom tab navigation, responsive layout for use on phone during networking events
+
+## How it works
+
+1. Add contacts — import or manually enter people from your network (recruiters, hiring managers, referrals, alumni)
+2. Track touchpoints — log every email, call, and LinkedIn message with channel and outcome
+3. Never miss a follow-up — Cadence surfaces who needs attention based on warmth scores and task due dates
+
+## Pricing
+
+Free to get started. No credit card required.
+
+## Technical details
+
+- Built with Next.js, Supabase, and Tailwind CSS
+- Web app (mobile-responsive)
+- Data stored securely per-user with row-level security
+
+## Get started
+
+https://cadenceos.app/signup
+
+## Contact / Homepage
+
+https://cadenceos.app

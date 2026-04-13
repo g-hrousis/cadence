@@ -9,24 +9,41 @@ const dmSerif = DM_Serif_Display({ subsets: ['latin'], weight: '400', style: ['n
 const dmMono = DM_Mono({ subsets: ['latin'], weight: ['400', '500'], variable: '--font-dm-mono' });
 const dmSans = DM_Sans({ subsets: ['latin'], weight: ['300', '400', '500'], variable: '--font-dm-sans' });
 
-// TODO: Create public/og-image.png (1200x630px, dark bg, Cadence. logo + tagline)
+const BASE_URL = 'https://cadenceos.app'
+
 export const metadata: Metadata = {
-  title: 'Cadence OS — Career Pipeline OS',
-  description: 'Cadence OS is the career pipeline operating system for serious job seekers. Track contacts, manage follow-ups, and never let a warm lead go cold.',
-  robots: { index: true, follow: true },
+  metadataBase: new URL(BASE_URL),
+  title: {
+    default: 'Cadence OS — Job Search CRM for Serious Job Seekers',
+    template: '%s — Cadence OS',
+  },
+  description: 'Cadence OS is the job search CRM for serious job seekers. Track contacts, manage follow-ups, and never let a warm lead go cold. Pipeline tracking, relationship management, and smart reminders — all in one place.',
+  keywords: [
+    'job search CRM', 'job search tracker', 'career pipeline', 'job application tracker',
+    'networking tracker', 'follow-up reminder', 'relationship management job search',
+    'job hunt organizer', 'career OS', 'job pipeline tool',
+  ],
+  authors: [{ name: 'Cadence OS', url: BASE_URL }],
+  creator: 'Cadence OS',
+  robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
+  alternates: {
+    canonical: BASE_URL,
+    types: { 'text/plain': `${BASE_URL}/llms.txt` },
+  },
   openGraph: {
     type: 'website',
-    url: 'https://cadenceos.app/',
+    url: BASE_URL,
     siteName: 'Cadence OS',
-    title: 'Cadence OS — Career Pipeline OS',
-    description: 'Track your network. Manage follow-ups. Never let a warm lead go cold.',
-    images: [{ url: 'https://cadenceos.app/og-image.png', width: 1200, height: 630 }],
+    title: 'Cadence OS — Job Search CRM for Serious Job Seekers',
+    description: 'Track your network. Manage follow-ups. Never let a warm lead go cold. The job search CRM built for people who treat the hunt like a pipeline.',
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Cadence OS — Job Search CRM' }],
+    locale: 'en_US',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Cadence OS — Career Pipeline OS',
+    title: 'Cadence OS — Job Search CRM',
     description: 'Track your network. Manage follow-ups. Never let a warm lead go cold.',
-    images: ['https://cadenceos.app/og-image.png'],
+    images: ['/og-image.png'],
   },
 };
 
