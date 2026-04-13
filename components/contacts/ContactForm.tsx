@@ -7,9 +7,16 @@ import { createContact, updateContact } from '@/app/(protected)/contacts/actions
 
 interface ContactFormProps {
   contact?: Contact
+  initialValues?: {
+    name?: string
+    company?: string
+    role?: string
+    email?: string
+    notes?: string
+  }
 }
 
-export function ContactForm({ contact }: ContactFormProps) {
+export function ContactForm({ contact, initialValues }: ContactFormProps) {
   const [isPending, startTransition] = useTransition()
   const router = useRouter()
 
@@ -32,7 +39,7 @@ export function ContactForm({ contact }: ContactFormProps) {
         <input
           name="name"
           required
-          defaultValue={contact?.name}
+          defaultValue={contact?.name ?? initialValues?.name ?? ''}
           className="w-full bg-surface-elevated border border-border-normal rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-[rgba(200,240,96,0.25)]"
           placeholder="Jane Smith"
         />
@@ -43,7 +50,7 @@ export function ContactForm({ contact }: ContactFormProps) {
           <label className="block text-sm font-medium text-text-secondary mb-1">Company</label>
           <input
             name="company"
-            defaultValue={contact?.company ?? ''}
+            defaultValue={contact?.company ?? initialValues?.company ?? ''}
             className="w-full bg-surface-elevated border border-border-normal rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-[rgba(200,240,96,0.25)]"
             placeholder="Acme Corp"
           />
@@ -52,7 +59,7 @@ export function ContactForm({ contact }: ContactFormProps) {
           <label className="block text-sm font-medium text-text-secondary mb-1">Role</label>
           <input
             name="role"
-            defaultValue={contact?.role ?? ''}
+            defaultValue={contact?.role ?? initialValues?.role ?? ''}
             className="w-full bg-surface-elevated border border-border-normal rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-[rgba(200,240,96,0.25)]"
             placeholder="Product Manager"
           />
@@ -64,7 +71,7 @@ export function ContactForm({ contact }: ContactFormProps) {
         <input
           name="email"
           type="email"
-          defaultValue={contact?.email ?? ''}
+          defaultValue={contact?.email ?? initialValues?.email ?? ''}
           className="w-full bg-surface-elevated border border-border-normal rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-[rgba(200,240,96,0.25)]"
           placeholder="jane@example.com"
         />
@@ -87,7 +94,7 @@ export function ContactForm({ contact }: ContactFormProps) {
         <textarea
           name="notes"
           rows={4}
-          defaultValue={contact?.notes}
+          defaultValue={contact?.notes ?? initialValues?.notes ?? ''}
           className="w-full bg-surface-elevated border border-border-normal rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-[rgba(200,240,96,0.25)] resize-none"
           placeholder="Context about this contact…"
         />

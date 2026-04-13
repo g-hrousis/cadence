@@ -1,4 +1,97 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
+
+export const metadata: Metadata = {
+  title: 'Cadence OS — Job Search CRM for Serious Job Seekers',
+  description: 'Track every contact, every application, every follow-up — in one place. Cadence OS is the job search CRM built for people who treat the hunt like a system.',
+  alternates: { canonical: 'https://cadenceos.app' },
+}
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'SoftwareApplication',
+      name: 'Cadence OS',
+      alternateName: 'Cadence',
+      applicationCategory: 'BusinessApplication',
+      applicationSubCategory: 'Job Search CRM',
+      operatingSystem: 'Web',
+      url: 'https://cadenceos.app',
+      description: 'Cadence OS is a job search CRM that helps serious job seekers track contacts, manage follow-ups, and never let a warm lead go cold. Features pipeline tracking, relationship warmth scoring, interaction logging, and smart follow-up reminders.',
+      offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD', availability: 'https://schema.org/InStock' },
+      featureList: [
+        'Job application pipeline tracking',
+        'Contact relationship management with warmth scoring',
+        'Interaction logging (LinkedIn, email, calls, in-person)',
+        'Automatic follow-up task creation',
+        'Network cold-contact alerts',
+        'Screenshot-to-contact AI import',
+        'Dashboard analytics and pipeline health',
+        'Bulk import for contacts and jobs',
+        'Mobile-responsive with bottom tab navigation',
+      ],
+      audience: { '@type': 'Audience', audienceType: 'Job seekers, Career changers, Recent graduates' },
+      creator: { '@type': 'Organization', name: 'Cadence OS', url: 'https://cadenceos.app' },
+    },
+    {
+      '@type': 'WebSite',
+      name: 'Cadence OS',
+      url: 'https://cadenceos.app',
+      description: 'Job search CRM for serious job seekers',
+      potentialAction: {
+        '@type': 'RegisterAction',
+        target: 'https://cadenceos.app/signup',
+        name: 'Get started for free',
+      },
+    },
+    {
+      '@type': 'FAQPage',
+      mainEntity: [
+        {
+          '@type': 'Question',
+          name: 'What is Cadence OS?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Cadence OS is a job search CRM (Customer Relationship Manager) designed specifically for job seekers. It helps you track job applications, manage your professional network, log interactions with recruiters and hiring managers, and set follow-up reminders so no opportunity slips through the cracks.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'Is Cadence OS free?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Yes, Cadence OS is free to get started with no credit card required. Sign up at cadenceos.app/signup and begin tracking your job search pipeline immediately.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'How does Cadence OS help with job searching?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Cadence OS tracks every contact in your network with warmth scores, manages your job application pipeline across stages (Networking, Applied, Interviewing, Offer, Rejected), logs every interaction by channel (LinkedIn, email, calls, in-person), and surfaces smart follow-up reminders so you never let a warm lead go cold.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'What makes Cadence OS different from a spreadsheet?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Cadence OS automatically tracks relationship warmth, creates follow-up tasks based on your interaction history, visualizes your pipeline health, alerts you when contacts are going cold, and can even extract contact information from LinkedIn screenshots using AI — all things a spreadsheet requires significant manual effort to replicate.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'Who is Cadence OS designed for?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Cadence OS is built for active job seekers who want to manage their job search systematically — whether you are a recent graduate, a career changer, or an experienced professional. It is especially useful for those who rely heavily on networking, as it helps track relationship health across a large number of contacts.',
+          },
+        },
+      ],
+    },
+  ],
+}
 
 export default function LandingPage() {
   return (
@@ -397,6 +490,11 @@ export default function LandingPage() {
           background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
         }
       `}</style>
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
 
       {/* Noise texture overlay */}
       <div className="landing-noise" aria-hidden="true" />
