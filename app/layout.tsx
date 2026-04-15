@@ -5,9 +5,9 @@ import { cn } from "@/lib/utils";
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Analytics } from '@vercel/analytics/next';
 
-const dmSerif = DM_Serif_Display({ subsets: ['latin'], weight: '400', style: ['normal', 'italic'], variable: '--font-dm-serif' });
-const dmMono = DM_Mono({ subsets: ['latin'], weight: ['400', '500'], variable: '--font-dm-mono' });
-const dmSans = DM_Sans({ subsets: ['latin'], weight: ['300', '400', '500'], variable: '--font-dm-sans' });
+const dmSerif = DM_Serif_Display({ subsets: ['latin'], weight: '400', style: ['normal', 'italic'], variable: '--font-dm-serif', display: 'swap' });
+const dmMono = DM_Mono({ subsets: ['latin'], weight: ['400', '500'], variable: '--font-dm-mono', display: 'swap' });
+const dmSans = DM_Sans({ subsets: ['latin'], weight: ['300', '400', '500'], variable: '--font-dm-sans', display: 'swap' });
 
 const BASE_URL = 'https://cadenceos.app'
 
@@ -48,8 +48,19 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const supabaseHostname = supabaseUrl ? new URL(supabaseUrl).hostname : null
+
   return (
     <html lang="en" className={cn("h-full", dmSans.variable, dmSerif.variable, dmMono.variable)}>
+      <head>
+        {supabaseHostname && (
+          <>
+            <link rel="preconnect" href={`https://${supabaseHostname}`} />
+            <link rel="dns-prefetch" href={`https://${supabaseHostname}`} />
+          </>
+        )}
+      </head>
       <body className="min-h-full bg-surface-base text-text-primary antialiased">
         {children}
         <SpeedInsights />

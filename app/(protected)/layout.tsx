@@ -1,11 +1,36 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
+import { Suspense } from 'react'
 import { SignOutButton } from '@/components/ui/SignOutButton'
 import { NavLink } from '@/components/ui/NavLink'
 import { NotificationBell } from '@/components/ui/NotificationBell'
 import { MobileNav } from '@/components/ui/MobileNav'
 import Image from 'next/image'
 import { startOfDay } from 'date-fns'
+
+// Deferred async component — fetches alert count independently so it doesn't
+// block the layout's initial render and doesn't inflate TTFB.
+async function AlertBadgeSidebar() {
+  const supabase = await createClient()
+  const { count } = await supabase
+    .from('tasks')
+    .select('id', { count: 'exact', head: true })
+    .eq('status', 'pending')
+    .lte('due_date', startOfDay(new Date()).toISOString())
+    .or('snoozed_until.is.null,snoozed_until.lt.' + new Date().toISOString())
+  return <NotificationBell count={count ?? 0} />
+}
+
+async function AlertBadgeMobile() {
+  const supabase = await createClient()
+  const { count } = await supabase
+    .from('tasks')
+    .select('id', { count: 'exact', head: true })
+    .eq('status', 'pending')
+    .lte('due_date', startOfDay(new Date()).toISOString())
+    .or('snoozed_until.is.null,snoozed_until.lt.' + new Date().toISOString())
+  return <MobileNav alertCount={count ?? 0} />
+}
 
 export default async function ProtectedLayout({
   children,
@@ -17,20 +42,14 @@ export default async function ProtectedLayout({
 
   if (!user) redirect('/login')
 
-  // Redirect to onboarding if profile hasn't been set up
-  const [{ data: profile }, { count: alertCount }] = await Promise.all([
-    supabase.from('profiles').select('id, first_name').eq('id', user.id).single(),
-    supabase
-      .from('tasks')
-      .select('id', { count: 'exact', head: true })
-      .eq('status', 'pending')
-      .lte('due_date', startOfDay(new Date()).toISOString())
-      .or('snoozed_until.is.null,snoozed_until.lt.' + new Date().toISOString()),
-  ])
+  // Only block on profile — needed for onboarding redirect and username display
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('id, first_name')
+    .eq('id', user.id)
+    .single()
 
   if (!profile?.first_name) redirect('/onboarding')
-
-  const alerts = alertCount ?? 0
 
   return (
     <div className="flex min-h-screen bg-surface-base">
@@ -50,9 +69,11 @@ export default async function ProtectedLayout({
           <span className="text-base font-bold tracking-tight text-text-primary">Cadence</span>
         </div>
 
-        {/* Nav */}
+        {/* Nav — alert badge streams in after main content */}
         <nav className="flex flex-col gap-0.5 flex-1">
-          <NotificationBell count={alerts} />
+          <Suspense fallback={<NotificationBell count={0} />}>
+            <AlertBadgeSidebar />
+          </Suspense>
           <NavLink href="/contacts">Contacts</NavLink>
           <NavLink href="/opportunities">Opportunities</NavLink>
           <NavLink href="/tasks">Tasks</NavLink>
@@ -70,8 +91,10 @@ export default async function ProtectedLayout({
         {children}
       </main>
 
-      {/* Mobile bottom navigation */}
-      <MobileNav alertCount={alerts} />
+      {/* Mobile bottom navigation — streams in with alert count */}
+      <Suspense fallback={<MobileNav alertCount={0} />}>
+        <AlertBadgeMobile />
+      </Suspense>
     </div>
   )
 }
